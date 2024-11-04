@@ -14,7 +14,7 @@ import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { router as route } from "@inertiajs/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPathname } from "@/app/redux/app-slice";
-import { AssignmentInd, Diversity1, Diversity3, Engineering, FolderShared, ForwardToInbox, Groups, Groups2, HistoryEdu, MarkEmailRead, MarkEmailUnread, People, PowerSettingsNew, School, SupervisedUserCircle } from "@mui/icons-material";
+import { AssignmentInd, CreditCard, Diversity1, Diversity3, Engineering, FolderShared, ForwardToInbox, Groups, Groups2, HistoryEdu, MarkEmailRead, MarkEmailUnread, Payments, People, PowerSettingsNew, School, SupervisedUserCircle } from "@mui/icons-material";
 import LogoutSection from "../_sections/logout-section";
 import store from "../store/store";
 import { get_user_login_thunk } from "@/app/redux/app-thunk";
@@ -30,28 +30,15 @@ const NAVIGATION = [
         icon: <DashboardIcon />,
     },
     {
-        segment: "employees",
-        title: "Employees",
-        icon: <Groups />,
+        segment: "request",
+        title: "Requests",
+        icon: <ForwardToInbox />,
     },
     {
-        segment: "form_response",
-        title: "Form Response",
-        icon: <MarkEmailUnread />,
-        children:[
-            {
-                segment: "pendings",
-                title: "Pendings",
-                icon: <ForwardToInbox />,
-            },
-            {
-                segment: "approved",
-                title: "Approved",
-                icon: <MarkEmailRead />,
-            },
-        ]
-    },
-
+      segment: "loans",
+      title: "Loans",
+      icon: <Payments />,
+  },
     {
         kind: "divider",
     },
@@ -81,7 +68,7 @@ const demoTheme = createTheme({
         },
     },
 });
-function AdminLayout({ children }, props) {
+function EmployeeLayout({ children }, props) {
     const { pathname } = useSelector((state) => state.app);
     const { window } = props;
     const dispatch = useDispatch();
@@ -101,9 +88,9 @@ function AdminLayout({ children }, props) {
                     setOpen(true)
                 }else{  
                     if (path == '/instructor' || path == '/students/registered' || path == '/students/enrollment') {
-                        route.visit(String("/administrator" + path+'?page=1'));
+                        route.visit(String("/employee" + path+'?page=1'));
                     }else{
-                        route.visit(String("/administrator" + path));
+                        route.visit(String("/employee" + path));
                     }
                     dispatch(setPathname(path));
                 }
@@ -135,8 +122,8 @@ function AdminLayout({ children }, props) {
     );
 }
 
-AdminLayout.propTypes = {
+EmployeeLayout.propTypes = {
     window: PropTypes.func,
 };
 
-export default AdminLayout;
+export default EmployeeLayout;

@@ -19,128 +19,38 @@ Route::middleware('redirectBasedOnRole')->get('/', function () {
     return Inertia::render('login/page');
 })->name('login');
 
-Route::middleware('auth:sanctum','administrator')->prefix('administrator')->group(function () {
+Route::middleware('auth:sanctum', 'administrator')->prefix('administrator')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('admin/dashboard/page');
     })->name('admin.dashboard');
-    Route::prefix('instructor')->group(function () {
-        Route::get('/', function () {
-            return Inertia::render('admin/instructor/page');
-        });
-        Route::prefix('{user_id}')->group(function () {
-            Route::get('/', function () {
-                return Inertia::render('admin/instructor/id/page1');
-            });
-
-            Route::get('/create_grades', function () {
-                return Inertia::render('admin/instructor/id/page2');
-            });
-
-            Route::get('/students', function () {
-                return Inertia::render('admin/instructor/id/page3');
-            });
-
-            Route::get('/print', function () {
-                return Inertia::render('admin/instructor/id/print');
-            });
-        });
+    Route::get('/employees', function () {
+        return Inertia::render('admin/employees/page');
     });
-    Route::prefix('students')->group(function () {
-        Route::get('/', function () {
-            return Inertia::render('admin/students/page');
+    Route::prefix('form_response')->group(function () {
+        Route::get('/pendings', function () {
+            return Inertia::render('admin/form_response/pendings/page');
         });
-        Route::get('/registered', function () {
-            return Inertia::render('admin/students/page');
+        Route::get('/approved', function () {
+            return Inertia::render('admin/form_response/approved/page');
         });
-        Route::get('/enrollment', function () {
-            return Inertia::render('admin/enrollment/page');
-        });
-        Route::get('/enrollment/{enrollment_id}', function () {
-            return Inertia::render('admin/enrollment/id/page');
-        });
-    });
-
-    Route::get('/department', function () {
-        return Inertia::render('admin/department/page');
-    });
-    Route::get('/courses', function () {
-        return Inertia::render('admin/courses/page');
-    });
-    Route::prefix('subjects')->group(function () {
-        Route::get('/', function () {
-            return Inertia::render('admin/subjects/page');
-        });
-        Route::get('/{id}', function () {
-            return Inertia::render('admin/subjects/id/page');
-        });
-    });
-
-    Route::get('/grades', function () {
-        return Inertia::render('admin/grades/page');
-    });
-    Route::get('/settings', function () {
-        return Inertia::render('admin/settings/page');
-    });
-
-    Route::get('/sections', function () {
-        return Inertia::render('admin/sections/page');
     });
 });
 
-Route::middleware('auth:sanctum','instructor')->prefix('instructor')->group(function () {
+Route::middleware('auth:sanctum', 'employee')->prefix('employee')->group(function () {
     Route::get('/dashboard', function () {
-        return Inertia::render('instructor/dashboard/page');
-    })->name('instructor.dashboard');
+        return Inertia::render('employee/dashboard/page');
+    })->name('employee.dashboard');
 
-    Route::prefix('subjects')->group(function () {
-        Route::get('/', function () {
-            return Inertia::render('instructor/subjects/page');
-        });
-        Route::prefix('{user_id}')->group(function () {
-            Route::get('/', function () {
-                return Inertia::render('instructor/subjects/id/page1');
-            });
-
-            Route::get('/create_grades', function () {
-                return Inertia::render('instructor/subjects/id/page2');
-            });
-
-            Route::get('/students', function () {
-                return Inertia::render('instructor/subjects/id/page3');
-            });
-        });
+    Route::get('/request', function () {
+        return Inertia::render('employee/request/page');
     });
-    // Route::get('/subjects', function () {
-    //     return Inertia::render('instructor/subjects/page');
-    // })->name('instructor.subjects');
-
-    // Route::get('/subjects/{code}', function () {
-    //     return Inertia::render('instructor/subjects/id/page');
-    // })->name('instructor.subject.code');
-
-    Route::get('/settings', function () {
-        return Inertia::render('instructor/settings/page');
-    })->name('instructor.settings');
+    Route::get('/loans', function () {
+        return Inertia::render('employee/loans/page');
+    });
 });
 
-Route::middleware('auth:sanctum','student')->prefix('student')->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('student/dashboard/page');
-    })->name('student.dashboard');
-
-    Route::get('/enrollments', function () {
-        return Inertia::render('student/enrollments/page');
-    })->name('student.enrollments');
-
-    Route::get('/enrollments/{id}', function () {
-        return Inertia::render('student/enrollments/id/page');
-    })->name('student.enrollments.id');
 
 
-    Route::get('/settings', function () {
-        return Inertia::render('student/settings/page');
-    })->name('student.settings');
-});
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');

@@ -23,11 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->appendToGroup('administrator', [
             \App\Http\Middleware\Administrator::class,
         ]);
-        $middleware->appendToGroup('instructor', [
-            \App\Http\Middleware\Instructor::class,
-        ]);
-        $middleware->appendToGroup('student', [
-            \App\Http\Middleware\Student::class,
+        $middleware->appendToGroup('employee', [
+            \App\Http\Middleware\Employee::class,
         ]);
         $middleware->api(append: [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,

@@ -9,14 +9,14 @@ import store from '../../store/store'
 export default function AdminDashboardPage() {
 
   useEffect(()=>{
-    store.dispatch(get_dashboard_thunk())
+    // store.dispatch(get_dashboard_thunk())
   },[])
   return (
     <AdminLayout>
-      <DashboardCardSection />
+      {/* <DashboardCardSection /> */}
       <div className='flex w-full items-center justify-center'>
         <div className='w-5/6'>
-          <DashboardLineGraph />
+          {/* <DashboardLineGraph /> */}
         </div>
       </div>
     </AdminLayout>

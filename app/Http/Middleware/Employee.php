@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
-class Administrator
+class Employee
 {
     /**
      * Handle an incoming request.
@@ -18,8 +18,8 @@ class Administrator
     public function handle(Request $request, Closure $next): Response
     {
         $account = $request->user();
-        if ($account->user_type != '1') {
-            return Inertia::location(route('employee.dashboard'));
+        if ($account->user_type == '1') {
+            return Inertia::location(route('admin.dashboard'));
         }
         return $next($request);
     }

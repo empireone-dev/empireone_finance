@@ -17,21 +17,26 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    public $timestamps = false;
     protected $fillable = [
-        'user_id',
-        'department_id',
-        'course_id',
-        'section',
-        'fname',
-        'lname',
-        'name',
-        'email',
+        'id',
+        'role_id',
+        'employee_id',
+        'employee_fname',
+        'employee_mname',
+        'employee_lname',
+        'employee_suffix',
+        'department',
+        'account',
+        'sup_id',
+        'position',
+        'profile',
+        'site',
+        'googlecal',
+        'gender',
         'password',
-        'dob',
-        'address',
-        'user_type',
+        'created'
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -54,16 +59,5 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function department(): HasOne
-    {
-        return $this->hasOne(Department::class,'id','department_id');
-    }
-    public function course(): HasOne
-    {
-        return $this->hasOne(Course::class,'id','course_id');
-    }
-    public function enrollment(): HasOne
-    {
-        return $this->hasOne(Enrollment::class,'user_id','user_id');
-    }
+
 }

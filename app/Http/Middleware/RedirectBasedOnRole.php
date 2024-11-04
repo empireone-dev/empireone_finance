@@ -19,13 +19,13 @@ class RedirectBasedOnRole
         $account = $request->user(); // Assuming user is authenticated and account information is available
 
         if ($account) {
-            switch ($account->user_type) {
+            switch ($account->role_id) {
                 case '1':
                     return Inertia::location(route('admin.dashboard'));
-                case '2':
-                    return Inertia::location(route('instructor.dashboard'));
-                case '3':
-                    return Inertia::location(route('student.dashboard'));
+                // case '2':
+                //     return Inertia::location(route('instructor.dashboard'));
+                // case '3':
+                //     return Inertia::location(route('student.dashboard'));
             }
         }
 
