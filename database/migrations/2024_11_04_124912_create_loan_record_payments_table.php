@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('term')->nullable();
             $table->double('amount')->nullable();
             $table->double('balance')->nullable();
+            $table->string('due_date')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
         });

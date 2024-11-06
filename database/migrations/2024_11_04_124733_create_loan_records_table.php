@@ -20,10 +20,10 @@ return new class extends Migration
             $table->double('approved_amount')->nullable();
             $table->bigInteger('term')->nullable();
             $table->double('net')->nullable();
-            $table->double('amortization')->nullable();
+            $table->double('bi_amortization')->nullable();
             $table->double('interest')->nullable();
-            $table->double('balance')->nullable();
             $table->double('basic_salary')->nullable();
+            $table->double('balance')->nullable();
             $table->string('remarks')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();

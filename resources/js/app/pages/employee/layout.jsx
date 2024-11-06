@@ -14,7 +14,25 @@ import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { router as route } from "@inertiajs/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPathname } from "@/app/redux/app-slice";
-import { AssignmentInd, CreditCard, Diversity1, Diversity3, Engineering, FolderShared, ForwardToInbox, Groups, Groups2, HistoryEdu, MarkEmailRead, MarkEmailUnread, Payments, People, PowerSettingsNew, School, SupervisedUserCircle } from "@mui/icons-material";
+import {
+    AssignmentInd,
+    CreditCard,
+    Diversity1,
+    Diversity3,
+    Engineering,
+    FolderShared,
+    ForwardToInbox,
+    Groups,
+    Groups2,
+    HistoryEdu,
+    MarkEmailRead,
+    MarkEmailUnread,
+    Payments,
+    People,
+    PowerSettingsNew,
+    School,
+    SupervisedUserCircle,
+} from "@mui/icons-material";
 import LogoutSection from "../_sections/logout-section";
 import store from "../store/store";
 import { get_user_login_thunk } from "@/app/redux/app-thunk";
@@ -29,16 +47,16 @@ const NAVIGATION = [
         title: "Dashboard",
         icon: <DashboardIcon />,
     },
+    // {
+    //     segment: "request",
+    //     title: "Loan Request",
+    //     icon: <ForwardToInbox />,
+    // },
     {
-        segment: "request",
-        title: "Requests",
-        icon: <ForwardToInbox />,
+        segment: "loans",
+        title: "Loans",
+        icon: <Payments />,
     },
-    {
-      segment: "loans",
-      title: "Loans",
-      icon: <Payments />,
-  },
     {
         kind: "divider",
     },
@@ -74,27 +92,29 @@ function EmployeeLayout({ children }, props) {
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
 
-
-    useEffect(()=>{
-        store.dispatch(get_user_login_thunk())
-    },[])
+    useEffect(() => {
+        store.dispatch(get_user_login_thunk());
+    }, []);
 
     const router = React.useMemo(() => {
         return {
             pathname,
             searchParams: new URLSearchParams(),
             navigate: (path) => {
-                if (path == '/logout') {
-                    setOpen(true)
-                }else{  
-                    if (path == '/instructor' || path == '/students/registered' || path == '/students/enrollment') {
-                        route.visit(String("/employee" + path+'?page=1'));
-                    }else{
+                if (path == "/logout") {
+                    setOpen(true);
+                } else {
+                    if (
+                        path == "/instructor" ||
+                        path == "/students/registered" ||
+                        path == "/students/enrollment"
+                    ) {
+                        route.visit(String("/employee" + path + "?page=1"));
+                    } else {
                         route.visit(String("/employee" + path));
                     }
                     dispatch(setPathname(path));
                 }
-               
             },
         };
     }, [pathname]);
@@ -110,11 +130,11 @@ function EmployeeLayout({ children }, props) {
             window={demoWindow}
             branding={{
                 logo: <img src="/images/logo.png" />,
-                title:'',
+                title: "",
             }}
         >
             <DashboardLayout>
-                <LogoutSection open={open} setOpen={setOpen}/>
+                <LogoutSection open={open} setOpen={setOpen} />
                 <div className="p-4">{children}</div>
             </DashboardLayout>
         </AppProvider>

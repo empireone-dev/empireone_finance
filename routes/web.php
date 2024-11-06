@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum', 'administrator')->prefix('administrator')->gro
         return Inertia::render('admin/employees/page');
     });
     Route::prefix('form_response')->group(function () {
-        Route::get('/pendings', function () {
+        Route::get('/pending', function () {
             return Inertia::render('admin/form_response/pendings/page');
         });
         Route::get('/approved', function () {

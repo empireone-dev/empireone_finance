@@ -40,7 +40,7 @@ const NAVIGATION = [
         icon: <MarkEmailUnread />,
         children:[
             {
-                segment: "pendings",
+                segment: "pending",
                 title: "Pendings",
                 icon: <ForwardToInbox />,
             },

@@ -22,10 +22,11 @@ class RedirectBasedOnRole
             switch ($account->role_id) {
                 case '1':
                     return Inertia::location(route('admin.dashboard'));
-                // case '2':
-                //     return Inertia::location(route('instructor.dashboard'));
-                // case '3':
-                //     return Inertia::location(route('student.dashboard'));
+                    // case '2':
+                    //     return Inertia::location(route('instructor.dashboard'));
+                    // case '3':
+                default:
+                    return Inertia::location(route('employee.dashboard'));
             }
         }
 

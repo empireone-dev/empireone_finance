@@ -18,7 +18,7 @@ class Employee
     public function handle(Request $request, Closure $next): Response
     {
         $account = $request->user();
-        if ($account->user_type == '1') {
+        if ($account->role_id == 1) {
             return Inertia::location(route('admin.dashboard'));
         }
         return $next($request);
