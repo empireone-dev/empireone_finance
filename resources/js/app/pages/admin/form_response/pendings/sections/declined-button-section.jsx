@@ -6,12 +6,13 @@ import {
     loan_change_status_thunk,
 } from "@/app/redux/loan_record/loan-record-thunk";
 import { useState, useRef } from "react";
-import { useDispatch } from "react-redux";
 import { setNotification } from "@/app/redux/app-slice";
+import { useDispatch } from "react-redux";
 
-export default function ApprovedButtonSection({ data,setOpen }) {
+export default function DeclinedButtonSection({ data,setOpen }) {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch()
+
     async function approved_handler(e) {
         setLoading(true);
         try {
@@ -19,20 +20,20 @@ export default function ApprovedButtonSection({ data,setOpen }) {
             await store.dispatch(
                 loan_change_status_thunk({
                     ...data,
-                    status: "Approved",
+                    status: "Declined",
                 }),
             );
             // Refresh loan records after status change
             await store.dispatch(get_loan_record_thunk());
+            dispatch(
+              setNotification({
+                  open:true,
+                  type:'error',
+                  message:'Loan applicant has already been declined!'
+                }),
+          );
             setOpen(false)
             setLoading(false);
-            dispatch(
-                setNotification({
-                    open:true,
-                    type:'success',
-                    message:'Loan applicant has already been approved!'
-                  }),
-            );
         } catch (error) {
             console.error("Error in approving loan:", error);
             setLoading(false);
@@ -40,12 +41,13 @@ export default function ApprovedButtonSection({ data,setOpen }) {
     }
     return (
         <Button
+            color="error"
             disabled={loading}
             variant="contained"
             onClick={approved_handler}
             autoFocus
         >
-            APPROVED
+            DECLINED
         </Button>
     );
 }

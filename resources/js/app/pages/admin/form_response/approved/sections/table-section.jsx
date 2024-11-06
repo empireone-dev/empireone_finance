@@ -10,6 +10,7 @@ import Paper from "@mui/material/Paper";
 // import DeleteSection from './delete-section';
 import { useSelector } from "react-redux";
 import moment from "moment";
+import ModalOptionSection from "./modal-option-section";
 // import { Visibility } from '@mui/icons-material';
 // import { Button } from '@mui/material';
 // import { router } from '@inertiajs/react';
@@ -32,6 +33,7 @@ export default function TableSection() {
                         <TableCell>Term</TableCell>
                         <TableCell>Balance</TableCell>
                         <TableCell>Status</TableCell>
+                        <TableCell>Action</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -64,6 +66,9 @@ export default function TableSection() {
                                 <TableCell>{res.term} Months</TableCell>
                                 <TableCell>{res.balance == 0?'FULLY PAID':res.balance}</TableCell>
                                 <TableCell>{res.status}</TableCell>
+                                <TableCell><ModalOptionSection data={res} /></TableCell>
+                                
+                        
                             </TableRow>
                         );
                     })}

@@ -10,13 +10,29 @@ class LoanRecordController extends Controller
 {
     public function index(Request $request)
     {
-        $loanRecords = LoanRecord::where('status', $request->status)
-            ->with(['employee', 'user'])
-            ->get();
+        if ($request->status == "Remaining_loan_records") {
+            $loanRecords = LoanRecord::where([
+                ['status', '=', 'Approved'],
+                ['balance', '<>', 0],
+            ])
+                ->with(['employee', 'user', 'loan_records']) // Eager load relationships
+                ->get();
 
-        return response()->json([
-            'response' => $loanRecords,
-        ], 200);
+            return response()->json([
+                'response' =>  $loanRecords,
+            ], 200);
+        } else {
+            $loanRecords = LoanRecord::where([
+                ['status', '=', $request->status],
+                ['balance', '<>', 0],
+            ])
+                ->with(['employee', 'user'])
+                ->get();
+
+            return response()->json([
+                'response' => $loanRecords,
+            ], 200);
+        }
     }
 
 

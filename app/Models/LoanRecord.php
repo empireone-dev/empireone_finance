@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LoanRecord extends Model
 {
@@ -32,5 +33,9 @@ class LoanRecord extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class,"employee_id","employee_id");
+    }
+    public function loan_records(): HasMany
+    {
+        return $this->hasMany(LoanRecordPayment::class, "loan_record_id", "loan_record_id");
     }
 }

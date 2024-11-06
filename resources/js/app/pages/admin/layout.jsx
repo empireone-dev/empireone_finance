@@ -14,10 +14,11 @@ import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { router as route } from "@inertiajs/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPathname } from "@/app/redux/app-slice";
-import { AssignmentInd, Diversity1, Diversity3, Engineering, FolderShared, ForwardToInbox, Groups, Groups2, HistoryEdu, MarkEmailRead, MarkEmailUnread, People, PowerSettingsNew, School, SupervisedUserCircle } from "@mui/icons-material";
+import { AccountBalanceWallet, AssignmentInd, Diversity1, Diversity3, Engineering, FolderShared, ForwardToInbox, Groups, Groups2, HistoryEdu, MarkEmailRead, MarkEmailUnread, People, PowerSettingsNew, School, SupervisedUserCircle, Unsubscribe } from "@mui/icons-material";
 import LogoutSection from "../_sections/logout-section";
 import store from "../store/store";
 import { get_user_login_thunk } from "@/app/redux/app-thunk";
+import NotificationSection from "../_sections/notification-section";
 
 const NAVIGATION = [
     {
@@ -49,9 +50,18 @@ const NAVIGATION = [
                 title: "Approved",
                 icon: <MarkEmailRead />,
             },
+            {
+                segment: "declined",
+                title: "Declined",
+                icon: <Unsubscribe />,
+            },
         ]
     },
-
+    {
+        segment: "remaining_loan_records",
+        title: "Remaining Loan Records",
+        icon: <AccountBalanceWallet />,
+    },
     {
         kind: "divider",
     },
@@ -100,8 +110,8 @@ function AdminLayout({ children }, props) {
                 if (path == '/logout') {
                     setOpen(true)
                 }else{  
-                    if (path == '/instructor' || path == '/students/registered' || path == '/students/enrollment') {
-                        route.visit(String("/administrator" + path+'?page=1'));
+                    if (path == '/remaining_loan_records' ) {
+                        route.visit(String("/administrator" + path+'?status=Remaining'));
                     }else{
                         route.visit(String("/administrator" + path));
                     }
@@ -126,6 +136,7 @@ function AdminLayout({ children }, props) {
                 title:'',
             }}
         >
+            <NotificationSection />
             <DashboardLayout>
                 <LogoutSection open={open} setOpen={setOpen}/>
                 <div className="p-4">{children}</div>

@@ -33,6 +33,12 @@ Route::middleware('auth:sanctum', 'administrator')->prefix('administrator')->gro
         Route::get('/approved', function () {
             return Inertia::render('admin/form_response/approved/page');
         });
+        Route::get('/declined', function () {
+            return Inertia::render('admin/form_response/declined/page');
+        });
+    });
+    Route::get('/remaining_loan_records', function () {
+        return Inertia::render('admin/remaining_loan_records/page');
     });
 });
 

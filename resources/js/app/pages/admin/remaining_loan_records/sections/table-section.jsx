@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 // import DeleteSection from './delete-section';
 import { useSelector } from "react-redux";
 import moment from "moment";
-import ApprovedButtonSection from "./approve-button-section";
+import ApprovedButtonSection from "./mark-paid-section";
 import ModalOptionSection from "./modal-option-section";
 // import { Visibility } from '@mui/icons-material';
 // import { Button } from '@mui/material';
@@ -65,9 +65,9 @@ export default function TableSection() {
                                     {res.bi_amortization.toFixed(2)}
                                 </TableCell>
                                 <TableCell>{res.term} Months</TableCell>
-                                <TableCell>{res.balance}</TableCell>
+                                <TableCell>{res.balance.toFixed(2)}</TableCell>
                                 <TableCell>{res.status}</TableCell>
-                                <TableCell>
+                                <TableCell align="right">
                                     <ModalOptionSection data={res} />
                                 </TableCell>
                             </TableRow>

@@ -4,8 +4,10 @@ export async function get_loan_record_service() {
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
+    const path =window.location.pathname.split('/')[3]
+    const url = path?path:window.location.pathname.split('/')[2]
     try {
-        const res = await axios.get("/api/loan_record?status="+capitalizeFirstLetter(window.location.pathname.split('/')[3]));
+        const res = await axios.get("/api/loan_record?status="+capitalizeFirstLetter(url));
         return res;
     } catch (error) {
         return error;

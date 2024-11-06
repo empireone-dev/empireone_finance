@@ -17,4 +17,5 @@ Route::get('/user', function (Request $request) {
 Route::resource('dashboard', DashboardController::class);
 Route::resource('loan_record', LoanRecordController::class);
 Route::post('/loan_change_status', [LoanRecordController::class, 'loan_change_status']);
-Route::resource('loan_record_payment', LoanRecordPaymentController::class);
+Route::resource('loan_record_payments', LoanRecordPaymentController::class);
+Route::post('/pay_loan_record', [LoanRecordPaymentController::class, 'pay_loan_record']);
