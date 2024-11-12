@@ -25,7 +25,7 @@ export default function LoginPage() {
                             <img
                                 alt="Your Company"
                                 src="/images/logo.png"
-                                className="mx-auto h-24 w-96 "
+                                className="mx-auto h-full w-96 "
                             />
                             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight ">
                                 Sign in to your account

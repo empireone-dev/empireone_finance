@@ -151,7 +151,7 @@ function AdminLayout({ children }, props) {
             theme={demoTheme}
             window={demoWindow}
             branding={{
-                logo: <img src="/images/logo.png" />,
+                logo: <img src="/images/logo.png"/>,
                 title:'',
             }}
         >
