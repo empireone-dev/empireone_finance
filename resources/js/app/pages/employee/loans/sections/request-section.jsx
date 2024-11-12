@@ -193,6 +193,7 @@ export default function RequestSection() {
                                 <div>
                                     Payment: {form.bi_amortization.toFixed(2)}
                                 </div>
+                                {/* <div>Status: {entry.status}</div> */}
                             </div>
                         </Typography>
                     ))}

@@ -6,8 +6,13 @@ export async function get_loan_record_service() {
     }
     const path =window.location.pathname.split('/')[3]
     const url = path?path:window.location.pathname.split('/')[2]
+    const urls = window.location.href;
+    const parsedUrl = new URL(urls);
+    const page = parsedUrl.searchParams.get("page")??'1';
+    const search = parsedUrl.searchParams.get("search");
+    console.log('page',page)
     try {
-        const res = await axios.get("/api/loan_record?status="+capitalizeFirstLetter(url));
+        const res = await axios.get("/api/loan_record?status="+capitalizeFirstLetter(url)+'&page='+page+'&search='+search);
         return res;
     } catch (error) {
         return error;

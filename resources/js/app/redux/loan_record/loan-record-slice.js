@@ -13,7 +13,7 @@ export const loanRecordSlice = createSlice({
   },
   reducers: {
     setLoanRecords: (state, action) => {
-      state.loan_records.data = action.payload
+      state.loan_records = action.payload
     },
     setLoanRecord: (state, action) => {
       state.loan_record = action.payload

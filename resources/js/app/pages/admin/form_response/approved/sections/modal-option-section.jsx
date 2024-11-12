@@ -12,6 +12,7 @@ import { IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ApprovedButtonSection from "./approve-button-section";
 import DeclinedButtonSection from "./declined-button-section";
+import ReleaseButtonSection from "./release-section";
 
 export default function ModalOptionSection({ data }) {
     const [open, setOpen] = useState(false);
@@ -28,10 +29,8 @@ export default function ModalOptionSection({ data }) {
 
     return (
         <React.Fragment>
-            <Button 
-            color="error"
-            variant="outlined" onClick={handleClickOpen}>
-                DECLINED
+            <Button color="primary" variant="outlined" onClick={handleClickOpen}>
+                OPTION
             </Button>
             <Dialog
                 fullWidth
@@ -86,7 +85,9 @@ export default function ModalOptionSection({ data }) {
                             <TableCell component="th" scope="row">
                                 Position
                             </TableCell>
-                            <TableCell>{data?.employee?.position??'NA'}</TableCell>
+                            <TableCell>
+                                {data?.employee?.position ?? "NA"}
+                            </TableCell>
                         </TableRow>
                         <TableRow
                             sx={{
@@ -153,10 +154,10 @@ export default function ModalOptionSection({ data }) {
                     </TableBody>
                 </Table>
                 <DialogActions>
-                    <DeclinedButtonSection
-                    setOpen={setOpen}
-                    data={data}/>
-                   {/* <ApprovedButtonSection
+                    <DeclinedButtonSection setOpen={setOpen} data={data} />
+
+                    <ReleaseButtonSection setOpen={setOpen} data={data} />
+                    {/* <ApprovedButtonSection
                    setOpen={setOpen}
                    data={data} /> */}
                 </DialogActions>

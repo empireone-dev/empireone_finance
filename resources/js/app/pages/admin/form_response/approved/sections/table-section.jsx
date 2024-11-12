@@ -64,11 +64,15 @@ export default function TableSection() {
                                     {res.bi_amortization.toFixed(2)}
                                 </TableCell>
                                 <TableCell>{res.term} Months</TableCell>
-                                <TableCell>{res.balance == 0?'FULLY PAID':res.balance}</TableCell>
+                                <TableCell>
+                                    {res.balance == 0
+                                        ? "FULLY PAID"
+                                        : res.balance}
+                                </TableCell>
                                 <TableCell>{res.status}</TableCell>
-                                <TableCell><ModalOptionSection data={res} /></TableCell>
-                                
-                        
+                                <TableCell>
+                                    <ModalOptionSection data={res} />
+                                </TableCell>
                             </TableRow>
                         );
                     })}

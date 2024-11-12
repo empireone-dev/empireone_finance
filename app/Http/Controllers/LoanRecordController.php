@@ -10,30 +10,36 @@ class LoanRecordController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->status == "Remaining_loan_records") {
-            $loanRecords = LoanRecord::where([
-                ['status', '=', 'Approved'],
-                ['balance', '<>', 0],
-            ])
-                ->with(['employee', 'user', 'loan_records']) // Eager load relationships
-                ->get();
+        // Define the base query
+        $query = LoanRecord::where('balance', '<>', 0)
+            ->with(['employee', 'user']);
 
-            return response()->json([
-                'response' =>  $loanRecords,
-            ], 200);
+        // Apply conditional status filter
+        if ($request->search != 'null') {
+            $query->where('employee_id', '=', $request->search);
+            $query->orWhere(function ($q) use ($request) {
+                $q->orWhereHas('user', function ($q) use ($request) { // Search by employee_fname in the user table
+                    $q->where('employee_fname', 'like', '%' . $request->search . '%');
+                });
+                $q->orWhereHas('user', function ($q) use ($request) { // Search by employee_fname in the user table
+                    $q->where('employee_lname', 'like', '%' . $request->search . '%');
+                });
+            });
         } else {
-            $loanRecords = LoanRecord::where([
-                ['status', '=', $request->status],
-                ['balance', '<>', 0],
-            ])
-                ->with(['employee', 'user'])
-                ->get();
-
-            return response()->json([
-                'response' => $loanRecords,
-            ], 200);
+            if ($request->status == "Remaining_loan_records") {
+                $query->where('status','=','Released')->with('loan_records'); // Load loan_records only if needed
+            } else {
+                $query->where('status','=',$request->status)->with('loan_records');
+            }
         }
+        // Paginate the results
+        $loanRecords = $query->paginate(10);
+
+        return response()->json([
+            'response' => $loanRecords,
+        ], 200);
     }
+
 
 
     public function show($id)

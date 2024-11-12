@@ -19,12 +19,13 @@ import ModalOptionSection from "./modal-option-section";
 
 export default function TableSection() {
     const { loan_records } = useSelector((state) => state.loan_records);
-    console.log("loan_records", loan_records);
+    console.log("loan_records", loan_records.data);
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                     <TableRow>
+                        <TableCell>Employee ID</TableCell>
                         <TableCell>Fullname</TableCell>
                         <TableCell>Loan ID</TableCell>
                         <TableCell>Desired Amount</TableCell>
@@ -50,8 +51,9 @@ export default function TableSection() {
                                     },
                                 }}
                             >
+                                <TableCell>{res.employee_id}</TableCell>
                                 <TableCell>
-                                    {res.user.employee_fname}{" "}
+                                    {res.user.employee_fname}&nbsp;
                                     {res.user.employee_lname}
                                 </TableCell>
                                 <TableCell>{res.loan_record_id}</TableCell>
@@ -59,7 +61,6 @@ export default function TableSection() {
                                     {res?.desired_amount ?? ""}
                                 </TableCell>
                                 <TableCell>{res?.net ?? ""}</TableCell>
-
                                 <TableCell>{res.interest}</TableCell>
                                 <TableCell>
                                     {res.bi_amortization.toFixed(2)}

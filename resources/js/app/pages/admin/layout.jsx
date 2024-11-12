@@ -14,7 +14,7 @@ import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { router as route } from "@inertiajs/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPathname } from "@/app/redux/app-slice";
-import { AccountBalanceWallet, AssignmentInd, Diversity1, Diversity3, Engineering, FolderShared, ForwardToInbox, Groups, Groups2, HistoryEdu, MarkEmailRead, MarkEmailUnread, People, PowerSettingsNew, School, SupervisedUserCircle, Unsubscribe } from "@mui/icons-material";
+import { AccountBalanceWallet, AssignmentInd, Checklist, Diversity1, Diversity3, Engineering, FolderShared, ForwardToInbox, Groups, Groups2, HistoryEdu, MarkEmailRead, MarkEmailUnread, People, PowerSettingsNew, PriceCheck, School, SupervisedUserCircle, Unsubscribe } from "@mui/icons-material";
 import LogoutSection from "../_sections/logout-section";
 import store from "../store/store";
 import { get_user_login_thunk } from "@/app/redux/app-thunk";
@@ -30,38 +30,55 @@ const NAVIGATION = [
         title: "Dashboard",
         icon: <DashboardIcon />,
     },
+    // {
+    //     segment: "employees",
+    //     title: "Employees",
+    //     icon: <Groups />,
+    // },
+    // {
+    //     segment: "form_response",
+    //     title: "Form Response",
+    //     icon: <MarkEmailUnread />,
+    //     children:[
+    //         {
+    //             segment: "pending",
+    //             title: "Pendings",
+    //             icon: <ForwardToInbox />,
+    //         },
+    //         {
+    //             segment: "approved",
+    //             title: "Approved",
+    //             icon: <MarkEmailRead />,
+    //         },
+    //         {
+    //             segment: "declined",
+    //             title: "Declined",
+    //             icon: <Unsubscribe />,
+    //         },
+    //     ]
+    // },
     {
-        segment: "employees",
-        title: "Employees",
-        icon: <Groups />,
+        segment: "pending",
+        title: "Pendings",
+        icon: <ForwardToInbox />,
     },
     {
-        segment: "form_response",
-        title: "Form Response",
-        icon: <MarkEmailUnread />,
-        children:[
-            {
-                segment: "pending",
-                title: "Pendings",
-                icon: <ForwardToInbox />,
-            },
-            {
-                segment: "approved",
-                title: "Approved",
-                icon: <MarkEmailRead />,
-            },
-            {
-                segment: "declined",
-                title: "Declined",
-                icon: <Unsubscribe />,
-            },
-        ]
+        segment: "approved",
+        title: "Approved",
+        icon: <MarkEmailRead />,
     },
+    
     {
         segment: "remaining_loan_records",
-        title: "Remaining Loan Records",
-        icon: <AccountBalanceWallet />,
+        title: "Released",
+        icon: <Checklist />,
     },
+    {
+        segment: "declined",
+        title: "Declined",
+        icon: <Unsubscribe />,
+    },
+
     {
         kind: "divider",
     },
@@ -110,8 +127,10 @@ function AdminLayout({ children }, props) {
                 if (path == '/logout') {
                     setOpen(true)
                 }else{  
-                    if (path == '/remaining_loan_records' ) {
-                        route.visit(String("/administrator" + path+'?status=Remaining'));
+                    if (path == '/remaining_loan_records') {
+                        route.visit(String("/administrator" + path+'?page=1&status=Remaining'));
+                    }else if (path == '/form_response/approved' || path == '/form_response/pending' || path == '/form_response/declined') {
+                        route.visit(String("/administrator" + path+'?page=1'));
                     }else{
                         route.visit(String("/administrator" + path));
                     }
