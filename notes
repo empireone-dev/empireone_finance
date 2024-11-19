@@ -46,7 +46,8 @@ YOLLY ANN	LABAY	San Carlos	₱9,600.00
 Ziner	Macion	Carcar	₱9,600.00
 
 
-
+- add date range in release form.
+- bar graph in dashboard.
 
 
         <FormControl fullWidth>
