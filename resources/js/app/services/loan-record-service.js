@@ -10,9 +10,11 @@ export async function get_loan_record_service() {
     const parsedUrl = new URL(urls);
     const page = parsedUrl.searchParams.get("page")??'1';
     const search = parsedUrl.searchParams.get("search");
+    const start_at = parsedUrl.searchParams.get("start_at");
+    const end_at = parsedUrl.searchParams.get("end_at");
     console.log('page',page)
     try {
-        const res = await axios.get("/api/loan_record?status="+capitalizeFirstLetter(url)+'&page='+page+'&search='+search);
+        const res = await axios.get("/api/loan_record?status="+capitalizeFirstLetter(url)+'&page='+page+'&search='+search+'&start_at='+start_at+'&end_at='+end_at);
         return res;
     } catch (error) {
         return error;

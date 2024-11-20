@@ -13,7 +13,7 @@ export default function SearchSection() {
     return (
         <Paper
             component="form"
-            sx={{ p: "2px 4px", display: "flex", alignItems: "center" }}
+            sx={{ p: "6px 4px", display: "flex", alignItems: "center" }}
         >
             <InputBase
                 name="search"

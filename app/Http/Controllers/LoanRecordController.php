@@ -18,6 +18,7 @@ class LoanRecordController extends Controller
         if ($request->search != 'null') {
             $query->where('employee_id', '=', $request->search);
             $query->orWhere(function ($q) use ($request) {
+                $q->orWhere('loan_record_id', '=', $request->search);
                 $q->orWhereHas('user', function ($q) use ($request) { // Search by employee_fname in the user table
                     $q->where('employee_fname', 'like', '%' . $request->search . '%');
                 });
@@ -27,9 +28,9 @@ class LoanRecordController extends Controller
             });
         } else {
             if ($request->status == "Remaining_loan_records") {
-                $query->where('status','=','Released')->with('loan_records'); // Load loan_records only if needed
+                $query->where('status', '=', 'Released')->with('loan_records'); // Load loan_records only if needed
             } else {
-                $query->where('status','=',$request->status)->with('loan_records');
+                $query->where('status', '=', $request->status)->with('loan_records');
             }
         }
         // Paginate the results
