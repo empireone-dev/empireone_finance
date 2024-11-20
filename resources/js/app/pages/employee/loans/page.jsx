@@ -14,7 +14,6 @@ export default function RequestPage() {
         store.dispatch(get_loan_record_by_id_thunk(user.employee_id));
       }
     }, [user.employee_id]);
-
     return (
         <EmployeeLayout>
             <div className="flex gap-3 flex-col">

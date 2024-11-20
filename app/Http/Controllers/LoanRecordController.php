@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use App\Models\LoanRecord;
 use App\Models\LoanRecordPayment;
 use Illuminate\Http\Request;
@@ -46,7 +47,7 @@ class LoanRecordController extends Controller
     public function show($id)
     {
         $loan_record = LoanRecord::where('employee_id', $id)->with(['employee', 'user'])
-            ->orderBy('created_at', 'asc')->get();
+            ->orderBy('created_at', 'asc')->paginate(10);
         return response()->json([
             'response' => $loan_record,
         ], 200);
@@ -64,7 +65,16 @@ class LoanRecordController extends Controller
             ['balance', '<>', 0],
         ])->exists();
 
-        if ($isPending) {
+        $employee = Employee::where([
+            ['app_id', '=', $request->employee_id],
+            ['status', '<>', 'Regular'],
+        ])->first();
+
+        if ($employee) {
+            return response()->json([
+                'response' => 'Your current employment status is ' . $employee->status,
+            ], 201);
+        } else if ($isPending) {
             return response()->json([
                 'response' => 'You already have a pending request!',
             ], 201);

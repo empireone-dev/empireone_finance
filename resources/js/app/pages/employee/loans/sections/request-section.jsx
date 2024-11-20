@@ -133,6 +133,10 @@ export default function RequestSection() {
                     setError({
                         notification:result.data.response
                     });
+
+                    setTimeout(() => {
+                        setError({});
+                    }, 2000);
                 }
                 setLoading(false);
             }

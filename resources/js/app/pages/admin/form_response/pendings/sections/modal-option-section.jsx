@@ -29,7 +29,7 @@ export default function ModalOptionSection({ data }) {
     return (
         <React.Fragment>
             <Button variant="outlined" onClick={handleClickOpen}>
-                APPROVE
+                ACTION
             </Button>
             <Dialog
                 fullWidth
@@ -84,7 +84,9 @@ export default function ModalOptionSection({ data }) {
                             <TableCell component="th" scope="row">
                                 Position
                             </TableCell>
-                            <TableCell>{data?.employee?.position??'NA'}</TableCell>
+                            <TableCell>
+                                {data?.employee?.position ?? "NA"}
+                            </TableCell>
                         </TableRow>
                         <TableRow
                             sx={{
@@ -151,12 +153,8 @@ export default function ModalOptionSection({ data }) {
                     </TableBody>
                 </Table>
                 <DialogActions>
-                    <DeclinedButtonSection
-                    setOpen={setOpen}
-                    data={data}/>
-                   <ApprovedButtonSection
-                   setOpen={setOpen}
-                   data={data} />
+                    <DeclinedButtonSection setOpen={setOpen} data={data} />
+                    <ApprovedButtonSection setOpen={setOpen} data={data} />
                 </DialogActions>
             </Dialog>
         </React.Fragment>

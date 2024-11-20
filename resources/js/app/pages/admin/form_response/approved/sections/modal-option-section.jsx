@@ -154,8 +154,7 @@ export default function ModalOptionSection({ data }) {
                     </TableBody>
                 </Table>
                 <DialogActions>
-                    <DeclinedButtonSection setOpen={setOpen} data={data} />
-
+                    {/* <DeclinedButtonSection setOpen={setOpen} data={data} /> */}
                     <ReleaseButtonSection setOpen={setOpen} data={data} />
                     {/* <ApprovedButtonSection
                    setOpen={setOpen}

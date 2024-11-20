@@ -8,6 +8,7 @@ import {
 import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { setNotification } from "@/app/redux/app-slice";
+import moment from "moment";
 
 export default function ReleaseButtonSection({ data,setOpen }) {
     const [loading, setLoading] = useState(false);
@@ -20,6 +21,7 @@ export default function ReleaseButtonSection({ data,setOpen }) {
                 loan_change_status_thunk({
                     ...data,
                     status: "Released",
+                    released_at:moment().format('LLL')
                 }),
             );
             // Refresh loan records after status change
