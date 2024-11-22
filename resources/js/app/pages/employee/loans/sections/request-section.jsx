@@ -267,10 +267,10 @@ export default function RequestSection() {
                                 <FormHelperText>{error.purpose}</FormHelperText>
                             )}
                         </FormControl>
-
                         <TextField
                             onChange={(e) => desired_amount_function(e)}
                             error={error?.desired_amount ? true : false}
+                            value={form?.desired_amount ?? ""}
                             helperText={error?.desired_amount ?? ""}
                             name="desired_amount"
                             type="number"
@@ -301,11 +301,11 @@ export default function RequestSection() {
         },
         {
             label: "Loan Agreement Template",
-            component: <LoanAgreementSection data={form}/>,
+            component: <LoanAgreementSection data={form} />,
         },
         {
             label: "Promissory Note",
-            component: <PromissoryNoteSection  data={form}/>,
+            component: <PromissoryNoteSection data={form} />,
         },
     ];
 
