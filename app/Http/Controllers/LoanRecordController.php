@@ -110,9 +110,12 @@ class LoanRecordController extends Controller
     public function loan_change_status(Request $request)
     {
         $loan_record = LoanRecord::where('id', $request->id)->first();
-        $loan_record->update([
-            'status' => $request->status
-        ]);
+
+        $updateData = ['status' =>  $request->status];
+        if ($request->released_at) {
+            $updateData['released_at'] = $request->released_at;
+        }
+        $loan_record->update($updateData);
         return response()->json([
             'response' => 'success',
         ], 200);

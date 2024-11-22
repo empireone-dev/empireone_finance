@@ -9,11 +9,28 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import RequestCalculationSection from "./request-calculation-section";
 import store from "@/app/pages/store/store";
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import StepContent from "@mui/material/StepContent";
+import Paper from "@mui/material/Paper";
 import {
     get_loan_record_by_id_thunk,
     get_loan_record_thunk,
     store_loan_record_thunk,
 } from "@/app/redux/loan_record/loan-record-thunk";
+import {
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    InputLabel,
+    MenuItem,
+    Select,
+} from "@mui/material";
+import LoanAgreementSection from "./loan-agreement-section";
+import PromissoryNoteSection from "./promissory-note-section";
 
 export default function RequestSection() {
     const [open, setOpen] = React.useState(false);
@@ -30,6 +47,10 @@ export default function RequestSection() {
     const [error, setError] = useState({});
     const [loading, setLoading] = useState(false);
     const { user } = useSelector((store) => store.app);
+    const [agrees, setAgrees] = useState({
+        value1: false,
+        value2: false,
+    });
 
     function generateAmortizationSchedule(
         initialPayment,
@@ -85,14 +106,28 @@ export default function RequestSection() {
             bi_amortization: (form.desired_amount ?? 0) / (form.term ?? 1) / 2, // 2 = Bi-Monthly Amortization ,
             schedule,
             ...user,
-            balance:form.desired_amount,
+            balance: form.desired_amount,
         });
     }, [form?.desired_amount ?? ""]);
 
-    console.log("form", form);
+    console.log("formssssss", form);
 
-    const handleClickOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClickOpen = () => {
+        setActiveStep(0);
+        setOpen(true);
+        setAgrees({
+            value1: false,
+            value2: false,
+        });
+    };
+    const handleClose = () => {
+        setOpen(false);
+        setActiveStep(0);
+        setAgrees({
+            value1: false,
+            value2: false,
+        });
+    };
 
     function desired_amount_function(e) {
         setForm({
@@ -112,11 +147,15 @@ export default function RequestSection() {
                 }),
             );
             if (result.status == 200) {
-                store.dispatch(get_loan_record_by_id_thunk(user.employee_id));
-                setLoading(false);
-                setOpen(false);
-                setError({})
-                setForm({
+                await store.dispatch(
+                    get_loan_record_by_id_thunk(user.employee_id),
+                );
+
+                await setAgrees({
+                    value1: false,
+                    value2: false,
+                });
+                await setForm({
                     term: 3,
                     desired_amount: 0,
                     interest: 0,
@@ -125,13 +164,17 @@ export default function RequestSection() {
                     interest_rate: 0.05,
                     schedule: [],
                 });
+                await setLoading(false);
+                await setOpen(false);
+                await setActiveStep(0);
+                await setError({});
             } else {
                 if (result?.response?.data?.errors) {
                     setError(result.response.data.errors);
                 } else {
                     console.log("result", result);
                     setError({
-                        notification:result.data.response
+                        notification: result.data.response,
                     });
 
                     setTimeout(() => {
@@ -144,74 +187,266 @@ export default function RequestSection() {
             setLoading(false);
         }
     }
+
+    const [activeStep, setActiveStep] = React.useState(0);
+
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
+
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
+
+    const handleReset = () => {
+        setActiveStep(0);
+    };
+
+    const steps = [
+        {
+            label: "Loan Information",
+            component: (
+                <>
+                    <RequestCalculationSection
+                        handleClose={handleClose}
+                        user={user}
+                        form={form}
+                        setForm={setForm}
+                    />
+                    <Toolbar className="flex-col gap-3 flex">
+                        {error?.notification && (
+                            <div className="text-red-500">
+                                {error?.notification}
+                            </div>
+                        )}
+
+                        <FormControl
+                            fullWidth
+                            // error={!!error?.purpose ?? ""}
+                        >
+                            <InputLabel id="demo-simple-select-label">
+                                Purpose of Borrowing
+                            </InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                name="purpose"
+                                label="Purpose of Borrowing"
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        [e.target.name]: e.target.value,
+                                    })
+                                }
+                                value={form.purpose ?? ""}
+                            >
+                                <MenuItem selected disabled></MenuItem>
+                                <MenuItem value="Medical Bills">
+                                    Medical Bills
+                                </MenuItem>
+                                <MenuItem value="Vehicle Financing">
+                                    Vehicle Financing
+                                </MenuItem>
+                                <MenuItem value="Home Improvements and Repair">
+                                    Home Improvements and Repair
+                                </MenuItem>
+                                <MenuItem value="Parties & Events">
+                                    Parties & Events
+                                </MenuItem>
+                                <MenuItem value="Vacation Fund">
+                                    Vacation Fund
+                                </MenuItem>
+                                <MenuItem value="Personal Equipments (Gadgets etc.)">
+                                    Personal Equipments (Gadgets etc.)
+                                </MenuItem>
+                                <MenuItem value="Family Support">
+                                    Family Support
+                                </MenuItem>
+                            </Select>
+                            {error?.purpose && (
+                                <FormHelperText>{error.purpose}</FormHelperText>
+                            )}
+                        </FormControl>
+
+                        <TextField
+                            onChange={(e) => desired_amount_function(e)}
+                            error={error?.desired_amount ? true : false}
+                            helperText={error?.desired_amount ?? ""}
+                            name="desired_amount"
+                            type="number"
+                            label="Desired Amount"
+                            variant="outlined"
+                            fullWidth
+                        />
+                    </Toolbar>
+
+                    {/* <Toolbar className="flex-col">
+                        <Typography variant="h6" gutterBottom>
+                            Amortization Schedule
+                        </Typography>
+                        {form.schedule.map((entry, index) => (
+                            <Typography key={index}>
+                                <div className="flex items-center justify-between w-96">
+                                    <div>Date: {entry.date}</div>
+                                    <div>
+                                        Payment:{" "}
+                                        {form.bi_amortization.toFixed(2)}
+                                    </div>
+                                </div>
+                            </Typography>
+                        ))}
+                    </Toolbar> */}
+                </>
+            ),
+        },
+        {
+            label: "Loan Agreement Template",
+            component: <LoanAgreementSection data={form}/>,
+        },
+        {
+            label: "Promissory Note",
+            component: <PromissoryNoteSection  data={form}/>,
+        },
+    ];
+
     return (
         <React.Fragment>
             <Button variant="outlined" onClick={handleClickOpen}>
                 Create Loan Request
             </Button>
-            <Dialog fullWidth open={open} onClose={handleClose}>
-                <RequestCalculationSection
-                    handleClose={handleClose}
-                    user={user}
-                    form={form}
-                    setForm={setForm}
-                />
-                <Toolbar className="flex-col gap-3 flex">
-                    {error?.notification && <div className="text-red-500">{error?.notification}</div>}
-                    <TextField
-                        onChange={(e) =>
-                            setForm({
-                                ...form,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
-                        error={error?.purpose ? true : false}
-                        helperText={error?.purpose ?? ""}
-                        name="purpose"
-                        type="text"
-                        label="Purpose of Borrowing"
-                        variant="outlined"
-                        fullWidth
-                    />
+            <Dialog maxWidth open={open} onClose={handleClose}>
+                <Box sx={{ width: 1000 }} className="m-10">
+                    <Stepper activeStep={activeStep} orientation="vertical">
+                        {steps.map((step, index) => (
+                            <Step key={step.label}>
+                                <StepLabel
+                                    optional={
+                                        index === steps.length - 1 ? (
+                                            <Typography variant="caption">
+                                                Last step
+                                            </Typography>
+                                        ) : null
+                                    }
+                                >
+                                    {step.label}
+                                </StepLabel>
+                                <StepContent>
+                                    <Typography>{step.component}</Typography>
+                                    <Box sx={{ mb: 2 }}>
+                                        {index === steps.length - 1 ? (
+                                            <div className="flex flex-col">
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            name="isPayAll"
+                                                            onChange={(e) =>
+                                                                setAgrees({
+                                                                    ...agrees,
+                                                                    value2: e
+                                                                        .target
+                                                                        .checked,
+                                                                })
+                                                            }
+                                                        />
+                                                    }
+                                                    label="I Agree"
+                                                />
+                                                <Button
+                                                    disabled={
+                                                        loading ||
+                                                        !agrees.value2
+                                                    }
+                                                    variant="contained"
+                                                    onClick={submit_form}
+                                                    sx={{ mt: 1, mr: 1 }}
+                                                >
+                                                    SUBMIT
+                                                </Button>
+                                            </div>
+                                        ) : (
+                                            <div className="flex flex-col">
+                                                {index == 0 && (
+                                                    <Button
+                                                        disabled={
+                                                            form.purpose ==
+                                                                undefined ||
+                                                            form.desired_amount ==
+                                                                undefined ||
+                                                            form.desired_amount ==
+                                                                ""
+                                                        }
+                                                        variant="contained"
+                                                        onClick={handleNext}
+                                                        sx={{ mt: 1, mr: 1 }}
+                                                    >
+                                                        Continue
+                                                    </Button>
+                                                )}
+                                                {index == 1 && (
+                                                    <>
+                                                        <FormControlLabel
+                                                            control={
+                                                                <Checkbox
+                                                                    name="isPayAll"
+                                                                    onChange={(
+                                                                        e,
+                                                                    ) =>
+                                                                        setAgrees(
+                                                                            {
+                                                                                ...agrees,
+                                                                                value1: e
+                                                                                    .target
+                                                                                    .checked,
+                                                                            },
+                                                                        )
+                                                                    }
+                                                                />
+                                                            }
+                                                            label="I Agree"
+                                                        />
 
-                    <TextField
-                        onChange={desired_amount_function}
-                        error={error?.desired_amount ? true : false}
-                        helperText={error?.desired_amount ?? ""}
-                        name="desired_amount"
-                        type="number"
-                        label="Desired Amount"
-                        variant="outlined"
-                        fullWidth
-                    />
-                </Toolbar>
-
-                <Toolbar className="flex-col">
-                    <Typography variant="h6" gutterBottom>
-                        Amortization Schedule
-                    </Typography>
-                    {form.schedule.map((entry, index) => (
-                        <Typography key={index}>
-                            <div className="flex items-center justify-between w-96">
-                                <div>Date: {entry.date}</div>
-                                <div>
-                                    Payment: {form.bi_amortization.toFixed(2)}
-                                </div>
-                                {/* <div>Status: {entry.status}</div> */}
-                            </div>
-                        </Typography>
-                    ))}
-                </Toolbar>
-
-                <Toolbar className="flex items-end justify-end">
-                    <Button
-                        disabled={loading}
-                        variant="contained"
-                        onClick={submit_form}
-                    >
-                        SUBMIT
-                    </Button>
-                </Toolbar>
+                                                        <Button
+                                                            disabled={
+                                                                !agrees.value1
+                                                            }
+                                                            variant="contained"
+                                                            onClick={handleNext}
+                                                            sx={{
+                                                                mt: 1,
+                                                                mr: 1,
+                                                            }}
+                                                        >
+                                                            Continue
+                                                        </Button>
+                                                    </>
+                                                )}
+                                            </div>
+                                        )}
+                                        <div className="flex flex-col mt-3">
+                                            <Button
+                                                disabled={index === 0}
+                                                onClick={handleBack}
+                                                sx={{ mt: 1, mr: 1 }}
+                                            >
+                                                Back
+                                            </Button>
+                                        </div>
+                                    </Box>
+                                </StepContent>
+                            </Step>
+                        ))}
+                    </Stepper>
+                    {activeStep === steps.length && (
+                        <Paper square elevation={0} sx={{ p: 3 }}>
+                            <Typography>
+                                All steps completed - you&apos;re finished
+                            </Typography>
+                            <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+                                Reset
+                            </Button>
+                        </Paper>
+                    )}
+                </Box>
             </Dialog>
         </React.Fragment>
     );

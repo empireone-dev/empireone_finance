@@ -7,17 +7,29 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { IconButton } from "@mui/material";
+import {
+    Checkbox,
+    FormControlLabel,
+    FormGroup,
+    IconButton,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import MarkPaidSection from "./mark-paid-section";
+import PayAllSection from "./pay-all-section";
+import { useEffect } from "react";
 
 export default function ModalOptionSection({ data }) {
     const [open, setOpen] = useState(false);
-
+    const [isPayAll, setIsPayAll] = useState(false);
     const handleClickOpen = () => {
         setOpen(true);
     };
 
+    useEffect(() => {
+        if (open) {
+            setIsPayAll(false);
+        }
+    }, [open]);
     const handleClose = () => {
         setOpen(false);
     };
@@ -163,34 +175,62 @@ export default function ModalOptionSection({ data }) {
                             },
                         }}
                     >
-                        <TableCell component="th" scope="row">
-                            Due Date
+                        <TableCell colSpan={3}>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        name="isPayAll"
+                                        value={isPayAll}
+                                        onChange={(e) =>
+                                            setIsPayAll(e.target.checked)
+                                        }
+                                    />
+                                }
+                                label="Is Pay All?"
+                            />
+                            {isPayAll && <PayAllSection data={data} />}
                         </TableCell>
-                        <TableCell>Amount</TableCell>
-                        <TableCell>Action</TableCell>
                     </TableRow>
-                    {sortedData.map((ress, i) => {
-                        return (
-                            <TableRow
-                                key={i}
-                                sx={{
-                                    "&:last-child td, &:last-child th": {
-                                        border: 0,
-                                    },
-                                }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {ress.due_date}
-                                </TableCell>
-                                <TableCell>
-                                    ₱ {data?.bi_amortization.toFixed(2)}
-                                </TableCell>
-                                <TableCell>
-                                    <MarkPaidSection data={ress} />
-                                </TableCell>
-                            </TableRow>
-                        );
-                    })}
+
+                    {!isPayAll && (
+                        <TableRow
+                            sx={{
+                                "&:last-child td, &:last-child th": {
+                                    border: 0,
+                                },
+                            }}
+                        >
+                            <TableCell component="th" scope="row">
+                                Due Date
+                            </TableCell>
+                            <TableCell>Amount</TableCell>
+                            <TableCell>Action</TableCell>
+                        </TableRow>
+                    )}
+
+                    {!isPayAll &&
+                        sortedData.map((ress, i) => {
+                            return (
+                                <TableRow
+                                    key={i}
+                                    sx={{
+                                        "&:last-child td, &:last-child th": {
+                                            border: 0,
+                                        },
+                                    }}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {ress.due_date}
+                                    </TableCell>
+                                    <TableCell>
+                                        ₱ {data?.bi_amortization.toFixed(2)}
+                                    </TableCell>
+                                    <TableCell>
+                                        <MarkPaidSection data={ress} />
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
                 </Table>
             </Dialog>
         </React.Fragment>

@@ -32,7 +32,7 @@ export default function ReleaseButtonSection({ data,setOpen }) {
                 setNotification({
                     open:true,
                     type:'success',
-                    message:'Loan applicant has already been approved!'
+                    message:'Loan applicant has already been release!'
                   }),
             );
         } catch (error) {

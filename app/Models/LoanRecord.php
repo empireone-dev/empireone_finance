@@ -23,9 +23,13 @@ class LoanRecord extends Model
         'basic_salary',
         'balance',
         'remarks',
+        'released_at',
         'status',
+        'notes',
+        'reason',
+        'pay_all'
     ];
-
+    
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class,"employee_id","emp_id");

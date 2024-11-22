@@ -44,16 +44,23 @@ class LoanRecordPaymentController extends Controller
     {
         $loan_record_payments = LoanRecordPayment::where('id', $request->id)->first();
         $loan_record = LoanRecord::where('loan_record_id', $loan_record_payments->loan_record_id)->first();
+        if ($request->status == 'Pay All') {
+            $loan_record->update([
+                'notes' => $request->notes,
+                'reason' => $request->reason,
+                'pay_all' => $request->pay_all,
+                'status' => $request->status
+            ]);
+        } else {
+            $remaining = $loan_record->balance - $request->amount;
+            $loan_record->update([
+                'balance' => floor($remaining) == 0 ? 0 : $remaining
+            ]);
+            $loan_record_payments->update([
+                'status' => $request->status
+            ]);
+        }
 
-        $remaining = $loan_record->balance - $request->amount;
-
-        $loan_record->update([
-            'balance' => floor($remaining) == 0 ? 0 : $remaining
-        ]);
-
-        $loan_record_payments->update([
-            'status' => $request->status
-        ]);
         return response()->json([
             'response' => 'success',
         ], 200);

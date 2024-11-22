@@ -1,0 +1,28 @@
+import{r as $,j as s,W as R}from"./app-BJjkSjur.js";import{T as C}from"./TextField-B4IHuPtR.js";import{C as M}from"./Checkbox-CZEgMF42.js";import{B as F}from"./Button-J1jEPj0o.js";import{g as T,a as _,s as y,d as p,m as w,u as z,c as E,b as I}from"./DefaultPropsProvider-CTo3fXdS.js";import{k as P,h as S,c as U}from"./createSimplePaletteValueFilter-CBzZW_YF.js";import"./useSlot-DNSnvLmN.js";import"./InputBase-BkZUbjG9.js";import"./isHostComponent-DVu5iVWx.js";import"./index-B4B48X_y.js";import"./useTheme-BKPdul-7.js";import"./extendSxProp-CmGNL4ZQ.js";import"./ownerWindow-HkKU3E4x.js";import"./ownerDocument-DW-IO8s5.js";import"./debounce-Be36O1Ab.js";import"./Popover-DQSJzixX.js";import"./Modal-gc-pcA9S.js";import"./Paper-B7JZMauj.js";import"./utils-DPh2eS8x.js";import"./Grow-CVOit31L.js";import"./useThemeProps-D7tSIg-0.js";import"./createSvgIcon-ZfO-_yW_.js";function B(r){return T("MuiCircularProgress",r)}_("MuiCircularProgress",["root","determinate","indeterminate","colorPrimary","colorSecondary","svg","circle","circleDeterminate","circleIndeterminate","circleDisableShrink"]);const o=44,h=P`
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+`,g=P`
+  0% {
+    stroke-dasharray: 1px, 200px;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 100px, 200px;
+    stroke-dashoffset: -15px;
+  }
+
+  100% {
+    stroke-dasharray: 100px, 200px;
+    stroke-dashoffset: -125px;
+  }
+`,A=typeof h!="string"?S`
+        animation: ${h} 1.4s linear infinite;
+      `:null,K=typeof g!="string"?S`
+        animation: ${g} 1.4s ease-in-out infinite;
+      `:null,V=r=>{const{classes:e,variant:a,color:n,disableShrink:t}=r,l={root:["root",a,`color${p(n)}`],svg:["svg"],circle:["circle",`circle${p(a)}`,t&&"circleDisableShrink"]};return I(l,B,e)},W=y("span",{name:"MuiCircularProgress",slot:"Root",overridesResolver:(r,e)=>{const{ownerState:a}=r;return[e.root,e[a.variant],e[`color${p(a.color)}`]]}})(w(({theme:r})=>({display:"inline-block",variants:[{props:{variant:"determinate"},style:{transition:r.transitions.create("transform")}},{props:{variant:"indeterminate"},style:A||{animation:`${h} 1.4s linear infinite`}},...Object.entries(r.palette).filter(U()).map(([e])=>({props:{color:e},style:{color:(r.vars||r).palette[e].main}}))]}))),G=y("svg",{name:"MuiCircularProgress",slot:"Svg",overridesResolver:(r,e)=>e.svg})({display:"block"}),L=y("circle",{name:"MuiCircularProgress",slot:"Circle",overridesResolver:(r,e)=>{const{ownerState:a}=r;return[e.circle,e[`circle${p(a.variant)}`],a.disableShrink&&e.circleDisableShrink]}})(w(({theme:r})=>({stroke:"currentColor",variants:[{props:{variant:"determinate"},style:{transition:r.transitions.create("stroke-dashoffset")}},{props:{variant:"indeterminate"},style:{strokeDasharray:"80px, 200px",strokeDashoffset:0}},{props:({ownerState:e})=>e.variant==="indeterminate"&&!e.disableShrink,style:K||{animation:`${g} 1.4s ease-in-out infinite`}}]}))),O=$.forwardRef(function(e,a){const n=z({props:e,name:"MuiCircularProgress"}),{className:t,color:l="primary",disableShrink:d=!1,size:i=40,style:N,thickness:c=3.6,value:u=0,variant:v="indeterminate",...D}=n,m={...n,color:l,disableShrink:d,size:i,thickness:c,value:u,variant:v},f=V(m),x={},b={},k={};if(v==="determinate"){const j=2*Math.PI*((o-c)/2);x.strokeDasharray=j.toFixed(3),k["aria-valuenow"]=Math.round(u),x.strokeDashoffset=`${((100-u)/100*j).toFixed(3)}px`,b.transform="rotate(-90deg)"}return s.jsx(W,{className:E(f.root,t),style:{width:i,height:i,...b,...N},ownerState:m,ref:a,role:"progressbar",...k,...D,children:s.jsx(G,{className:f.svg,ownerState:m,viewBox:`${o/2} ${o/2} ${o} ${o}`,children:s.jsx(L,{className:f.circle,style:x,ownerState:m,cx:o,cy:o,r:(o-c)/2,fill:"none",strokeWidth:c})})})});function xe(){const{data:r,setData:e,post:a,processing:n,errors:t,reset:l}=R({employee_id:"",password:"",remember:!1}),d=i=>{i.preventDefault(),console.log("data",r),a(route("login.auth"),{onFinish:()=>l("password")})};return s.jsxs(s.Fragment,{children:[s.jsx("div",{className:"absolute inset-0 -z-10 items-center px-5 py-24 bg-gray-300"}),s.jsx("div",{className:"flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ",children:s.jsxs("div",{className:"mt-20 sm:mx-auto sm:w-full sm:max-w-sm bg-white p-5 rounded-md",children:[s.jsx("div",{className:"sm:mx-auto sm:w-full sm:max-w-sm flex w-full items-center justify-center",children:s.jsxs("div",{className:"flex items-center justify-center flex-col",children:[s.jsx("img",{alt:"Your Company",src:"/images/logo.png",className:"mx-auto h-full w-96 "}),s.jsx("h2",{className:"mt-10 text-center text-2xl font-bold leading-9 tracking-tight ",children:"Sign in to your account"})]})}),s.jsxs("form",{onSubmit:d,className:"space-y-6",children:[s.jsx(C,{className:"w-full",onChange:i=>e("employee_id",i.target.value),error:!!(t!=null&&t.employee_id),helperText:(t==null?void 0:t.employee_id)??"",name:"employee_id",type:"text",id:"outlined-basic",label:"Employee ID",variant:"outlined"}),s.jsx(C,{className:"w-full",onChange:i=>e("password",i.target.value),error:!!(t!=null&&t.password),helperText:(t==null?void 0:t.password)??"",name:"password",type:"password",id:"outlined-basic",label:"Password",variant:"outlined"}),s.jsx("div",{className:"block mt-4",children:s.jsxs("label",{className:"flex items-center",children:[s.jsx(M,{name:"remember",checked:r.remember,onChange:i=>e("remember",i.target.checked)}),s.jsx("span",{className:"ms-2 text-sm text-gray-600",children:"Remember me"})]})}),s.jsx("div",{children:s.jsx(F,{type:"submit",disabled:n,variant:"contained",className:"w-full",children:n?s.jsx(O,{size:24,color:"inherit"}):" Sign in"})})]})]})})]})}export{xe as default};
