@@ -15,8 +15,9 @@ export default function RequestCalculationSection({
     form,
     setForm,
     handleClose,
-    user
+    user,
 }) {
+    const salary = (parseFloat(user?.salary?.budgetCost) * 0.8);
     return (
         <Table aria-label="simple table">
             <TableHead>
@@ -62,6 +63,18 @@ export default function RequestCalculationSection({
                         Desired Amount
                     </TableCell>
                     <TableCell>₱ {form.desired_amount ?? 0}</TableCell>
+                </TableRow>
+                <TableRow
+                    sx={{
+                        "&:last-child td, &:last-child th": {
+                            border: 0,
+                        },
+                    }}
+                >
+                    <TableCell component="th" scope="row">
+                        Maximum loan amount.(amount 80% of basic salary).
+                    </TableCell>
+                    <TableCell>₱ {salary ?? 9600}</TableCell>
                 </TableRow>
                 <TableRow
                     sx={{

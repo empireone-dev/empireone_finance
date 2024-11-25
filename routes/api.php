@@ -2,11 +2,12 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoanRecordController;
 use App\Http\Controllers\LoanRecordPaymentController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
-    return $request->user();
+    return User::where('id',$request->user()->id)->with(['salary'])->first();
 })->middleware('auth:sanctum');
 
 // Route::get('/user', function (Request $request) {

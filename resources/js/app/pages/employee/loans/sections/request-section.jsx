@@ -5,7 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import RequestCalculationSection from "./request-calculation-section";
 import store from "@/app/pages/store/store";
@@ -31,6 +31,7 @@ import {
 } from "@mui/material";
 import LoanAgreementSection from "./loan-agreement-section";
 import PromissoryNoteSection from "./promissory-note-section";
+import { setNotification } from "@/app/redux/app-slice";
 
 export default function RequestSection() {
     const [open, setOpen] = React.useState(false);
@@ -43,15 +44,17 @@ export default function RequestSection() {
         interest_rate: 0.05,
         schedule: [],
     });
+    const [activeStep, setActiveStep] = React.useState(0);
     const [amortizationSchedule, setAmortizationSchedule] = useState([]);
     const [error, setError] = useState({});
     const [loading, setLoading] = useState(false);
     const { user } = useSelector((store) => store.app);
+    const dispatch = useDispatch();
+    const salary = parseFloat(user?.salary?.budgetCost) * 0.8;
     const [agrees, setAgrees] = useState({
         value1: false,
         value2: false,
     });
-
     function generateAmortizationSchedule(
         initialPayment,
         finalPayment,
@@ -146,16 +149,29 @@ export default function RequestSection() {
                     status: "Pending",
                 }),
             );
+            console.log("result.status ", result.status);
             if (result.status == 200) {
                 await store.dispatch(
                     get_loan_record_by_id_thunk(user.employee_id),
                 );
 
-                await setAgrees({
+                dispatch(
+                    setNotification({
+                        open: true,
+                        type: "success",
+                        message: "Will be reviewed",
+                    }),
+                );
+                setLoading(false);
+                setOpen(false);
+                setActiveStep(0);
+                setError({});
+            } else {
+                setAgrees({
                     value1: false,
                     value2: false,
                 });
-                await setForm({
+                setForm({
                     term: 3,
                     desired_amount: 0,
                     interest: 0,
@@ -164,31 +180,34 @@ export default function RequestSection() {
                     interest_rate: 0.05,
                     schedule: [],
                 });
-                await setLoading(false);
-                await setOpen(false);
-                await setActiveStep(0);
-                await setError({});
-            } else {
                 if (result?.response?.data?.errors) {
                     setError(result.response.data.errors);
+                    setLoading(false);
                 } else {
                     console.log("result", result);
+                    setLoading(false);
                     setError({
                         notification: result.data.response,
                     });
+                    dispatch(
+                        setNotification({
+                            open: true,
+                            type: "error",
+                            message: result.data.response,
+                        }),
+                    );
 
                     setTimeout(() => {
                         setError({});
                     }, 2000);
                 }
+                setOpen(false);
                 setLoading(false);
             }
         } catch (error) {
             setLoading(false);
         }
     }
-
-    const [activeStep, setActiveStep] = React.useState(0);
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -373,7 +392,9 @@ export default function RequestSection() {
                                                             form.desired_amount ==
                                                                 undefined ||
                                                             form.desired_amount ==
-                                                                ""
+                                                                "" ||
+                                                            form.desired_amount >
+                                                                (salary ?? 9600)
                                                         }
                                                         variant="contained"
                                                         onClick={handleNext}

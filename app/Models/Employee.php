@@ -27,9 +27,14 @@ class Employee extends Model
     {
         return $this->belongsTo(User::class, "sup_id", "id");
     }
-    
+
     // public function employee(): BelongsTo
     // {
     //     return $this->belongsTo(Employee::class,"employee_id","app_id");
     // }
+
+    public function salary(): BelongsTo
+    {
+        return $this->belongsTo(OutSourcingErf::class, "position", "jobTitle");
+    }
 }

@@ -17,6 +17,7 @@ export default function ModalOptionSection({ data }) {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const salary = parseFloat(data?.employee?.salary?.budgetCost) * 0.8;
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -99,6 +100,19 @@ export default function ModalOptionSection({ data }) {
                                 Desired Amount
                             </TableCell>
                             <TableCell>₱ {data?.desired_amount ?? 0}</TableCell>
+                        </TableRow>
+                        <TableRow
+                            sx={{
+                                "&:last-child td, &:last-child th": {
+                                    border: 0,
+                                },
+                            }}
+                        >
+                            <TableCell component="th" scope="row">
+                                Maximum loan amount.(amount 80% of basic
+                                salary).
+                            </TableCell>
+                            <TableCell>₱ {salary ?? 9600}</TableCell>
                         </TableRow>
                         <TableRow
                             sx={{

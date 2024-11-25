@@ -32,7 +32,7 @@ class LoanRecord extends Model
     
     public function employee(): BelongsTo
     {
-        return $this->belongsTo(Employee::class,"employee_id","emp_id");
+        return $this->belongsTo(Employee::class,"employee_id","emp_id")->with(['salary']);
     }
     public function user(): BelongsTo
     {

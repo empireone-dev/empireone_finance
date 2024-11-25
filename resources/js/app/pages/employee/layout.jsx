@@ -36,6 +36,7 @@ import {
 import LogoutSection from "../_sections/logout-section";
 import store from "../store/store";
 import { get_user_login_thunk } from "@/app/redux/app-thunk";
+import NotificationSection from "../_sections/notification-section";
 
 const NAVIGATION = [
     {
@@ -133,6 +134,7 @@ function EmployeeLayout({ children }, props) {
                 title: "",
             }}
         >
+            <NotificationSection />
             <DashboardLayout>
                 <LogoutSection open={open} setOpen={setOpen} />
                 <div className="p-4">{children}</div>

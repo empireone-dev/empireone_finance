@@ -19,6 +19,7 @@ export function get_loan_record_thunk() {
 export function get_loan_record_by_id_thunk(id) {
     return async function (dispatch, getState) {
         const res = await get_loan_record_by_id_service(id);
+        console.log('res.data.response',res.data.response)
         dispatch(loanRecordSlice.actions.setLoanRecords(res.data.response));
         return res;
     };
