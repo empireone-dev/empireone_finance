@@ -93,30 +93,30 @@ export default function PromissoryNoteSection({ data }) {
 
                     <p className="text-sm mb-4">
                         I,{" "}
-                        <u className="text-black">
+                        <u className="text-black font-black">
                             {data?.employee_fname ?? ""}{" "}
                             {data?.employee_mname ?? ""}{" "}
                             {data?.employee_lname ?? ""}
                         </u>
                         , of legal age, Filipino, married, and resident of{" "}
-                        <u className="text-black">
+                        <u className="text-black font-black">
                             {data?.applicant?.caddress}
                         </u>
                         , who has worked with{" "}
-                        <u className="text-black">
+                        <u className="text-black font-black">
                             EmpireOne BPO Solutions Inc
                         </u>
                         , a corporation organized and existing under the laws of
                         the Philippines (hereafter the “Corporation”), with
                         principal office located at{" "}
-                        <u className="text-black">
+                        <u className="text-black font-black">
                             {data?.applicant?.site} City
                         </u>
                         , has borrowed the amount of{" "}
-                        <u className="text-black">{formatToPeso(data?.net)}</u>{" "}
+                        <u className="text-black font-black">{formatToPeso(data?.net)}</u>{" "}
                         from the aforementioned Corporation and is hereby liable
                         with the said amount <br /> of{" "}
-                        <u className="text-black">
+                        <u className="text-black font-black">
                             {formatToPeso(data?.desired_amount)}
                         </u>{" "}
                         (gross) which includes interest of 5% per month for 3
