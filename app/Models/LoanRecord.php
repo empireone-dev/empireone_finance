@@ -27,7 +27,8 @@ class LoanRecord extends Model
         'status',
         'notes',
         'reason',
-        'pay_all'
+        'pay_all',
+        'signature'
     ];
     
     public function employee(): BelongsTo
@@ -41,5 +42,9 @@ class LoanRecord extends Model
     public function loan_records(): HasMany
     {
         return $this->hasMany(LoanRecordPayment::class, "loan_record_id", "loan_record_id");
+    }
+    public function applicant(): BelongsTo
+    {
+        return $this->belongsTo(Applicant::class,"employee_id","app_id");
     }
 }

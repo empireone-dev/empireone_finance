@@ -46,7 +46,7 @@ class LoanRecordController extends Controller
 
     public function show($id)
     {
-        $loan_record = LoanRecord::where('employee_id', $id)->with(['employee', 'user'])
+        $loan_record = LoanRecord::where('employee_id', $id)->with(['employee', 'user','applicant'])
             ->orderBy('created_at', 'asc')->paginate(10);
         return response()->json([
             'response' => $loan_record,
@@ -97,7 +97,7 @@ class LoanRecordController extends Controller
                     'amount' => $request->bi_amortization,
                     'due_date' => $value['date'],
                     'status' => 'Unpaid',
-                    'balance' => $request->desired_amount
+                    'balance' => $request->desired_amount,
                 ]);
             }
             return response()->json([

@@ -65,4 +65,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(OutSourcingErf::class, "position", "jobTitle");
     }
+    public function applicant(): BelongsTo
+    {
+        return $this->belongsTo(Applicant::class,"employee_id","app_id");
+    }
 }

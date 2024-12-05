@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
-    return User::where('id',$request->user()->id)->with(['salary'])->first();
+    return User::where('id',$request->user()->id)->with(['salary','applicant'])->first();
 })->middleware('auth:sanctum');
 
 // Route::get('/user', function (Request $request) {

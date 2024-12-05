@@ -32,6 +32,7 @@ import {
 import LoanAgreementSection from "./loan-agreement-section";
 import PromissoryNoteSection from "./promissory-note-section";
 import { setNotification } from "@/app/redux/app-slice";
+import SignatureSection from "./signature-section";
 
 export default function RequestSection() {
     const [open, setOpen] = React.useState(false);
@@ -43,6 +44,7 @@ export default function RequestSection() {
         bi_amortization: 0,
         interest_rate: 0.05,
         schedule: [],
+        signature:''
     });
     const [activeStep, setActiveStep] = React.useState(0);
     const [amortizationSchedule, setAmortizationSchedule] = useState([]);
@@ -221,6 +223,10 @@ export default function RequestSection() {
         setActiveStep(0);
     };
 
+    const handleNextSignature = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
+
     const steps = [
         {
             label: "Loan Information",
@@ -323,11 +329,18 @@ export default function RequestSection() {
             component: <LoanAgreementSection data={form} />,
         },
         {
+            label: "Signature",
+            component: <SignatureSection 
+            onNext={handleNextSignature}
+            setForm={setForm}
+            data={form} />,
+        },
+        {
             label: "Promissory Note",
             component: <PromissoryNoteSection data={form} />,
         },
     ];
-
+console.log('formform',form)
     return (
         <React.Fragment>
             <Button variant="outlined" onClick={handleClickOpen}>

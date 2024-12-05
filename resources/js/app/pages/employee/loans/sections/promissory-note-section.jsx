@@ -2,6 +2,12 @@ import moment from "moment";
 import React from "react";
 
 export default function PromissoryNoteSection({ data }) {
+    function formatToPeso(amount) {
+        return new Intl.NumberFormat("en-PH", {
+            style: "currency",
+            currency: "PHP",
+        }).format(amount);
+    }
     return (
         <div className="bg-gray-100 font-sans text-gray-700 min-h-screen py-12">
             <div className="max-w-4xl mx-auto p-8 bg-white shadow-md rounded-lg">
@@ -16,7 +22,9 @@ export default function PromissoryNoteSection({ data }) {
                     November 11, {moment().format("Y")}
                 </p>
 
-                <p className="text-sm mb-4">Dear {data.employee_fname} {data.employee_lname},</p>
+                <p className="text-sm mb-4">
+                    Dear {data.employee_fname} {data.employee_lname},
+                </p>
 
                 <p className="text-sm mb-4">
                     We are pleased to inform you that your salary loan
@@ -84,19 +92,37 @@ export default function PromissoryNoteSection({ data }) {
                     </h2>
 
                     <p className="text-sm mb-4">
-                        I, ___________________, of legal age, Filipino, married,
-                        and resident of _________________________, who has
-                        worked with __________________, a corporation organized
-                        and existing under the laws of the Philippines
-                        (hereafter the “Corporation”), with principal office
-                        located at _____________________, has borrowed the
-                        amount of __(net)_________________________ from the
-                        aforementioned Corporation and is hereby liable with the
-                        said amount of ________________ (gross) which includes
-                        ____________ interest of 5% per month for 3 months
-                        payable in 3 months, which I hereby promise and agree
-                        that payment shall be automatically deducted from my
-                        payroll in bi-monthly installments.
+                        I,{" "}
+                        <u className="text-black">
+                            {data?.employee_fname ?? ""}{" "}
+                            {data?.employee_mname ?? ""}{" "}
+                            {data?.employee_lname ?? ""}
+                        </u>
+                        , of legal age, Filipino, married, and resident of{" "}
+                        <u className="text-black">
+                            {data?.applicant?.caddress}
+                        </u>
+                        , who has worked with{" "}
+                        <u className="text-black">
+                            EmpireOne BPO Solutions Inc
+                        </u>
+                        , a corporation organized and existing under the laws of
+                        the Philippines (hereafter the “Corporation”), with
+                        principal office located at{" "}
+                        <u className="text-black">
+                            {data?.applicant?.site} City
+                        </u>
+                        , has borrowed the amount of{" "}
+                        <u className="text-black">{formatToPeso(data?.net)}</u>{" "}
+                        from the aforementioned Corporation and is hereby liable
+                        with the said amount <br /> of{" "}
+                        <u className="text-black">
+                            {formatToPeso(data?.desired_amount)}
+                        </u>{" "}
+                        (gross) which includes interest of 5% per month for 3
+                        months payable in 3 months, which I hereby promise and
+                        agree that payment shall be automatically deducted from
+                        my payroll in bi-monthly installments.
                     </p>
 
                     {/* Amortization Schedule Table */}
@@ -120,7 +146,8 @@ export default function PromissoryNoteSection({ data }) {
                                     return (
                                         <tr key={index}>
                                             <td className="border px-4 py-2">
-                                               {moment().format("MMDDYYYYHH")+index}
+                                                {moment().format("MMDDYYYYHH") +
+                                                    index}
                                             </td>
                                             <td className="border px-4 py-2">
                                                 {" "}
@@ -168,11 +195,22 @@ export default function PromissoryNoteSection({ data }) {
                     </p>
 
                     <div className="mt-8 flex justify-start items-start flex-col">
-                        <div className="text-left">
-                            <p className="font-semibold">
-                                ________________________
-                            </p>
-                            <p className="text-sm">PROMISSOR</p>
+                        <div className="text-left ">
+                            <div className="relative h-32">
+                                <div className="absolute ">
+                                    {data.signature && (
+                                        <img
+                                            src={data.signature}
+                                            alt="Signature"
+                                            className=" w-52 h-auto" // Adjust size if needed
+                                        />
+                                    )}
+                                    <p className="-mt-10 font-semibold">
+                                        ________________________
+                                    </p>
+                                </div>
+                            </div>
+                            <p className="text-sm mt-1">PROMISSOR</p>
                         </div>
                         <div className="text-left">
                             <p className="text-sm">
