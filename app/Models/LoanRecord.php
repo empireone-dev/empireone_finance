@@ -47,4 +47,9 @@ class LoanRecord extends Model
     {
         return $this->belongsTo(Applicant::class,"employee_id","app_id");
     }
+
+    public function salary(): BelongsTo
+    {
+        return $this->belongsTo(OutSourcingErf::class, "position", "jobTitle");
+    }
 }
