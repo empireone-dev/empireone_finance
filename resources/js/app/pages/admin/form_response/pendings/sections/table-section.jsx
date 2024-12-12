@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import ApprovedButtonSection from "./approve-button-section";
 import ModalOptionSection from "./modal-option-section";
+import InformationLoanSection from "./information-loan-section";
 // import { Visibility } from '@mui/icons-material';
 // import { Button } from '@mui/material';
 // import { router } from '@inertiajs/react';
@@ -68,7 +69,10 @@ export default function TableSection() {
                                 <TableCell>{res.balance}</TableCell>
                                 <TableCell>{res.status}</TableCell>
                                 <TableCell>
-                                    <ModalOptionSection data={res} />
+                                    <div className="flex gap-3">
+                                        <InformationLoanSection data={res} />
+                                        <ModalOptionSection data={res} />
+                                    </div>
                                 </TableCell>
                             </TableRow>
                         );

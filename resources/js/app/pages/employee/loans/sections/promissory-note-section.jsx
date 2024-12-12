@@ -8,6 +8,7 @@ export default function PromissoryNoteSection({ data }) {
             currency: "PHP",
         }).format(amount);
     }
+    console.log("datadata", data);
     return (
         <div className="bg-gray-100 font-sans text-gray-700 min-h-screen py-12">
             <div className="max-w-4xl mx-auto p-8 bg-white shadow-md rounded-lg">
@@ -27,9 +28,9 @@ export default function PromissoryNoteSection({ data }) {
                     <p className="text-sm mb-4">
                         I,{" "}
                         <u className="text-black font-black">
-                            {data?.employee_fname ?? ""}{" "}
-                            {data?.employee_mname ?? ""}{" "}
-                            {data?.employee_lname ?? ""}
+                            {data?.user.employee_fname ?? ""}{" "}
+                            {data?.user.employee_mname ?? ""}{" "}
+                            {data?.user.employee_lname ?? ""}
                         </u>
                         , of legal age, Filipino, married, and resident of{" "}
                         <u className="text-black font-black">
@@ -46,7 +47,9 @@ export default function PromissoryNoteSection({ data }) {
                             {data?.applicant?.site} City
                         </u>
                         , has borrowed the amount of{" "}
-                        <u className="text-black font-black">{formatToPeso(data?.net)}</u>{" "}
+                        <u className="text-black font-black">
+                            {formatToPeso(data?.net)}
+                        </u>{" "}
                         from the aforementioned Corporation and is hereby liable
                         with the said amount <br /> of{" "}
                         <u className="text-black font-black">
@@ -75,7 +78,7 @@ export default function PromissoryNoteSection({ data }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.schedule.map((entry, index) => {
+                                {data.loan_records.map((entry, index) => {
                                     return (
                                         <tr key={index}>
                                             <td className="border px-4 py-2">
@@ -84,7 +87,7 @@ export default function PromissoryNoteSection({ data }) {
                                             </td>
                                             <td className="border px-4 py-2">
                                                 {" "}
-                                                {entry.date}
+                                                {entry.due_date}
                                             </td>
                                             <td className="border px-4 py-2">
                                                 {data.bi_amortization.toFixed(

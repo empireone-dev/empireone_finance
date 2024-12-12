@@ -13,7 +13,7 @@ class LoanRecordController extends Controller
     {
         // Define the base query
         $query = LoanRecord::where('balance', '<>', 0)
-            ->with(['employee', 'user','salary']);
+            ->with(['employee', 'user','salary','applicant']);
 
         // Apply conditional status filter
         if ($request->search != 'null') {
