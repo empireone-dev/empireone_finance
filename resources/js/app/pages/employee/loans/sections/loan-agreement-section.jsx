@@ -1,8 +1,8 @@
 import moment from "moment";
 import React from "react";
 
-export default function LoanAgreementSection({data}) {
-  console.log('datadata',data)
+export default function LoanAgreementSection({ data }) {
+    console.log("datadata", data);
     return (
         <div className="bg-gray-100 font-sans text-gray-700 min-h-screen py-12">
             <div className="max-w-4xl mx-auto p-8 bg-white shadow-md rounded-lg">
@@ -13,22 +13,25 @@ export default function LoanAgreementSection({data}) {
                     Loan Agreement
                 </h1>
 
-                <p className="text-xl mb-4">{moment().format('LL')}</p>
+                <p className="text-xl mb-4">{moment().format("LL")}</p>
 
-                <p className="text-sm mb-4">Dear {data.employee_fname} {data.employee_lname},</p>
+                <p className="text-sm mb-4">
+                    Dear {data.employee_fname} {data.employee_lname},
+                </p>
 
                 <p className="text-sm mb-4">
                     We are pleased to inform you that your salary loan
-                    application with EmpireOne has been successfully reviewed
-                    and approved. We appreciate the opportunity to assist you in
-                    meeting your financial needs.
+                    application with EmpireOne is being reviewed. We appreciate
+                    the opportunity to assist you in meeting your
+                    financial needs.
                 </p>
 
                 <div className="mb-6">
                     <h2 className="text-xl font-semibold">Loan Details:</h2>
                     <ul className="list-inside list-disc pl-5 mt-2">
                         <li>
-                            <strong>Loan Amount:</strong> ₱ {data.desired_amount}
+                            <strong>Loan Amount:</strong> ₱{" "}
+                            {data.desired_amount}
                         </li>
                         <li>
                             <strong>Interest Rate:</strong> 5% per month
@@ -43,7 +46,8 @@ export default function LoanAgreementSection({data}) {
                             <strong>Net Amount:</strong> ₱ {data.net}
                         </li>
                         <li>
-                            <strong>Bi-monthly Amortization:</strong> ₱ {data.bi_amortization.toFixed(2)}
+                            <strong>Bi-monthly Amortization:</strong> ₱{" "}
+                            {data.bi_amortization.toFixed(2)}
                         </li>
                     </ul>
                 </div>
