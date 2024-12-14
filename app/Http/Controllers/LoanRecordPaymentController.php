@@ -45,7 +45,8 @@ class LoanRecordPaymentController extends Controller
         $loan_record_payments = LoanRecordPayment::where('id', $request->id)->first();
         $loan_record = LoanRecord::where('loan_record_id', $loan_record_payments->loan_record_id)->first();
         if ($request->status == 'Pay All') {
-            $loan_record->update([
+            $loan_record_data = LoanRecord::where('loan_record_id', $request->loan_record_id)->first();
+            $loan_record_data->update([
                 'notes' => $request->notes,
                 'reason' => $request->reason,
                 'pay_all' => $request->pay_all,
@@ -54,7 +55,7 @@ class LoanRecordPaymentController extends Controller
         } else {
             $remaining = $loan_record->balance - $request->amount;
             $loan_record->update([
-                'balance' => floor($remaining) == 0 ? 0 : $remaining
+                'balance' => max(0, $remaining)
             ]);
             $loan_record_payments->update([
                 'status' => $request->status

@@ -12,11 +12,11 @@ class LoanRecordController extends Controller
     public function index(Request $request)
     {
         // Define the base query
-        $query = LoanRecord::where('balance', '<>', 0)
-            ->with(['employee', 'user','salary','applicant']);
+        $query = LoanRecord::with(['employee', 'user', 'salary', 'applicant']);
 
         // Apply conditional status filter
         if ($request->search != 'null') {
+            $query->where('balance', '<>', 0);
             $query->where('employee_id', '=', $request->search);
             $query->orWhere(function ($q) use ($request) {
                 $q->orWhere('loan_record_id', '=', $request->search);
@@ -29,8 +29,14 @@ class LoanRecordController extends Controller
             });
         } else {
             if ($request->status == "Remaining_loan_records") {
+                $query->where('balance', '<>', 0);
                 $query->where('status', '=', 'Released')->with('loan_records'); // Load loan_records only if needed
+            }
+            if ($request->status == "Loan_tracker") {
+                $query->where('balance', '=', 0)->with('loan_records');
+                $query->orWhere('pay_all', '<>', null)->with('loan_records');
             } else {
+                $query->where('balance', '<>', 0);
                 $query->where('status', '=', $request->status)->with('loan_records');
             }
         }
@@ -46,7 +52,7 @@ class LoanRecordController extends Controller
 
     public function show($id)
     {
-        $loan_record = LoanRecord::where('employee_id', $id)->with(['employee', 'user','applicant'])
+        $loan_record = LoanRecord::where('employee_id', $id)->with(['employee', 'user', 'applicant'])
             ->orderBy('created_at', 'asc')->paginate(10);
         return response()->json([
             'response' => $loan_record,

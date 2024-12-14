@@ -36,6 +36,10 @@ Route::middleware('auth:sanctum', 'administrator')->prefix('administrator')->gro
         Route::get('/declined', function () {
             return Inertia::render('admin/form_response/declined/page');
         });
+        Route::get('/loan_tracker', function () {
+            return Inertia::render('admin/form_response/loan_tracker/page');
+        });
+        
     });
     Route::get('/remaining_loan_records', function () {
         return Inertia::render('admin/remaining_loan_records/page');

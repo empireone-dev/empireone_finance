@@ -14,7 +14,7 @@ import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { router as route } from "@inertiajs/react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPathname } from "@/app/redux/app-slice";
-import { AccountBalanceWallet, AssignmentInd, Checklist, Diversity1, Diversity3, Engineering, FolderShared, ForwardToInbox, Groups, Groups2, HistoryEdu, MarkEmailRead, MarkEmailUnread, People, PowerSettingsNew, PriceCheck, School, SupervisedUserCircle, Unsubscribe } from "@mui/icons-material";
+import { AccountBalanceWallet, AssignmentInd, AttachEmail, Checklist, Diversity1, Diversity3, Engineering, FolderShared, ForwardToInbox, Groups, Groups2, HistoryEdu, MarkEmailRead, MarkEmailUnread, People, PowerSettingsNew, PriceCheck, School, SupervisedUserCircle, Unsubscribe } from "@mui/icons-material";
 import LogoutSection from "../_sections/logout-section";
 import store from "../store/store";
 import { get_user_login_thunk } from "@/app/redux/app-thunk";
@@ -73,12 +73,18 @@ const NAVIGATION = [
         title: "Released",
         icon: <Checklist />,
     },
+
     {
         segment: "declined",
         title: "Declined",
         icon: <Unsubscribe />,
     },
 
+    {
+        segment: "loan_tracker",
+        title: "Loan Tracker",
+        icon: <AttachEmail />,
+    },
     {
         kind: "divider",
     },
