@@ -95,13 +95,13 @@ class LoanRecordController extends Controller
             ]);
 
             $loan_record = LoanRecord::create($request->all());
-            foreach ($request->schedule as $key => $value) {
+            foreach ($request->loan_records as $key => $value) {
                 LoanRecordPayment::create([
                     'loan_record_id' => $loan_record->loan_record_id,
                     'employee_id' => $request->employee_id,
                     'term' => $request->term,
                     'amount' => $request->bi_amortization,
-                    'due_date' => $value['date'],
+                    'due_date' => $value['due_date'],
                     'status' => 'Unpaid',
                     'balance' => $request->desired_amount,
                 ]);

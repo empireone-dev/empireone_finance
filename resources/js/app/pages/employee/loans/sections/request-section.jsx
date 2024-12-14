@@ -43,11 +43,10 @@ export default function RequestSection() {
         net: 0,
         bi_amortization: 0,
         interest_rate: 0.05,
-        schedule: [],
+        loan_records: [],
         signature:''
     });
     const [activeStep, setActiveStep] = React.useState(0);
-    const [amortizationSchedule, setAmortizationSchedule] = useState([]);
     const [error, setError] = useState({});
     const [loading, setLoading] = useState(false);
     const { user } = useSelector((store) => store.app);
@@ -57,7 +56,7 @@ export default function RequestSection() {
         value1: false,
         value2: false,
     });
-    function generateAmortizationSchedule(
+    function generateAmortizationloan_records(
         initialPayment,
         finalPayment,
         durationMonths,
@@ -68,7 +67,7 @@ export default function RequestSection() {
             (initialPayment - finalPayment) / (numberOfPayments - 1);
         let paymentAmount = initialPayment;
 
-        const schedule = [];
+        const loan_records = [];
 
         for (let i = 0; i < numberOfPayments; i++) {
             // Alternate between the 10th and 25th of each month
@@ -76,8 +75,8 @@ export default function RequestSection() {
                 .clone()
                 .add(Math.floor(i / 2), "months")
                 .date(i % 2 === 0 ? 10 : 25);
-            schedule.push({
-                date: paymentDate.format("LL"),
+            loan_records.push({
+                due_date: paymentDate.format("LL"),
                 // payment: paymentAmount.toFixed(2)
                 payment: finalPayment.toFixed(2),
             });
@@ -87,11 +86,11 @@ export default function RequestSection() {
             );
         }
 
-        return schedule;
+        return loan_records;
     }
 
     useEffect(() => {
-        const schedule = generateAmortizationSchedule(
+        const loan_records = generateAmortizationloan_records(
             form.net,
             form.bi_amortization,
             form.term,
@@ -109,7 +108,7 @@ export default function RequestSection() {
                     (form.interest_rate ?? 0) *
                     (form.term ?? 0),
             bi_amortization: (form.desired_amount ?? 0) / (form.term ?? 1) / 2, // 2 = Bi-Monthly Amortization ,
-            schedule,
+            loan_records,
             ...user,
             balance: form.desired_amount,
         });
@@ -180,7 +179,7 @@ export default function RequestSection() {
                     net: 0,
                     bi_amortization: 0,
                     interest_rate: 0.05,
-                    schedule: [],
+                    loan_records: [],
                 });
                 if (result?.response?.data?.errors) {
                     setError(result.response.data.errors);
@@ -307,9 +306,9 @@ export default function RequestSection() {
 
                     {/* <Toolbar className="flex-col">
                         <Typography variant="h6" gutterBottom>
-                            Amortization Schedule
+                            Amortization loan_records
                         </Typography>
-                        {form.schedule.map((entry, index) => (
+                        {form.loan_records.map((entry, index) => (
                             <Typography key={index}>
                                 <div className="flex items-center justify-between w-96">
                                     <div>Date: {entry.date}</div>
