@@ -71,7 +71,7 @@ export default function TableSection() {
                                 <TableCell>
                                     <div className="flex gap-3">
                                         <InformationLoanSection data={res} />
-                                        <ModalOptionSection data={res} />
+                                        {/* <ModalOptionSection data={res} /> */}
                                     </div>
                                 </TableCell>
                             </TableRow>

@@ -28,9 +28,9 @@ export default function PromissoryNoteSection({ data }) {
                     <p className="text-sm mb-4">
                         I,{" "}
                         <u className="text-black font-black">
-                            {data?.user.employee_fname ?? ""}{" "}
-                            {data?.user.employee_mname ?? ""}{" "}
-                            {data?.user.employee_lname ?? ""}
+                            {data?.user?.employee_fname ?? ""}{" "}
+                            {data?.user?.employee_mname ?? ""}{" "}
+                            {data?.user?.employee_lname ?? ""}
                         </u>
                         , of legal age, Filipino, married, and resident of{" "}
                         <u className="text-black font-black">
@@ -78,7 +78,7 @@ export default function PromissoryNoteSection({ data }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.loan_records.map((entry, index) => {
+                                {data?.loan_records?.map((entry, index) => {
                                     return (
                                         <tr key={index}>
                                             <td className="border px-4 py-2">

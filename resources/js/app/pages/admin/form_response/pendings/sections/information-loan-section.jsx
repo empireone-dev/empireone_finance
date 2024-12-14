@@ -13,8 +13,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import AboutLoanSection from "./about-loan-section";
 import LoanAgreementSection from "@/app/pages/employee/loans/sections/loan-agreement-section";
 import PromissoryNoteSection from "@/app/pages/employee/loans/sections/promissory-note-section";
-// import ApprovedButtonSection from "./approve-button-section";
-// import DeclinedButtonSection from "./declined-button-section";
+import ApprovedButtonSection from "./approve-button-section";
+import DeclinedButtonSection from "./declined-button-section";
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -103,8 +103,8 @@ export default function InformationLoanSection({ data }) {
                     </Box>
                 </div>
                 <DialogActions>
-                    {/* <DeclinedButtonSection setOpen={setOpen} data={data} />
-                    <ApprovedButtonSection setOpen={setOpen} data={data} /> */}
+                    <DeclinedButtonSection setOpen={setOpen} data={data} />
+                    <ApprovedButtonSection setOpen={setOpen} data={data} />
                 </DialogActions>
             </Dialog>
         </React.Fragment>
