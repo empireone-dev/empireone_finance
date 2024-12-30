@@ -6,6 +6,7 @@ use App\Models\Employee;
 use App\Models\LoanRecord;
 use App\Models\LoanRecordPayment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class LoanRecordController extends Controller
 {
@@ -58,6 +59,32 @@ class LoanRecordController extends Controller
             'response' => $loan_record,
         ], 200);
     }
+
+    public function uploadBase64Image($signature)
+    {
+        try {
+            list($type, $data) = explode(';', $signature);
+            list(, $data) = explode(',', $data);
+    
+            $decodedImage = base64_decode($data);
+            if ($decodedImage === false) {
+                return 'none';
+            }
+    
+            if (!str_contains($type, 'image/')) {
+                return 'none';
+            }
+    
+            $filename = uniqid() . '.png';
+            $path = 'empireone-financing/' . date("Y") . '/' . $filename;
+    
+            Storage::disk('s3')->put($path, $decodedImage);
+            return Storage::disk('s3')->url($path);
+        } catch (\Exception $e) {
+            return 'none';
+        }
+    }
+    
     public function store(Request $request)
     {
         $isPending = LoanRecord::where([
@@ -93,8 +120,12 @@ class LoanRecordController extends Controller
                 'purpose' => 'required',
                 'desired_amount' => 'required',
             ]);
+            $signature = $this->uploadBase64Image($request->signature);
+            $loan_record = LoanRecord::create([
+                ...$request->all(),
+                'signature' =>$signature 
+            ]);
 
-            $loan_record = LoanRecord::create($request->all());
             foreach ($request->loan_records as $key => $value) {
                 LoanRecordPayment::create([
                     'loan_record_id' => $loan_record->loan_record_id,
